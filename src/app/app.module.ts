@@ -15,9 +15,11 @@ import {AngularFirestoreModule} from '@angular/fire/compat/firestore'
 import { FormsModule } from '@angular/forms'
 
 import { DatabaseService } from './services/database.service';
+import { OverviewComponent } from './components/admin/overview/overview.component';
 
 const appRoutes: Routes = [
-  {path: 'config', component: ConfigGrpesComponent}
+  {path: 'config', component: ConfigGrpesComponent},
+  {path: 'overview', component: OverviewComponent}
 ]
 
 @NgModule({
@@ -25,7 +27,8 @@ const appRoutes: Routes = [
     AppComponent,
     LoginComponent,
     DashboardComponent,
-    ConfigGrpesComponent
+    ConfigGrpesComponent,
+    OverviewComponent
   ],
   imports: [
     BrowserModule,

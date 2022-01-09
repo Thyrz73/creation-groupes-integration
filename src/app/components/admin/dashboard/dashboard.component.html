@@ -1,11 +1,9 @@
 <div class="dashboard">
     <div class="container">
-        <div class="brand">
-            <p>Administrateur</p>
-            <div class="options">
-                <div class="btn">Configuration des groupes</div>
-                <div class="btn">Modification des groupes</div>
-            </div>
+        <p>Administrateur</p>
+        <div class="buttons">
+            <a [routerLink]="['/config']" routerLinkActive="active" ><div class="btn">Configuration des groupes</div></a>
+            <a [routerLink]="['/overview']" routerLinkActive="active" ><div class="btn">Modification des groupes</div></a>
         </div>
     </div>
 </div>
