@@ -1,0 +1,16 @@
+.dashboard {
+  position: fixed;
+  width: 100%;
+}
+
+.dashboard .container {
+  background-color: lightgrey;
+  color: black;
+  font-weight: bold;
+}
+
+.dashboard .container .brand .btn {
+  height: 30px;
+  width: 100px;
+  background-color: lightblue;
+}

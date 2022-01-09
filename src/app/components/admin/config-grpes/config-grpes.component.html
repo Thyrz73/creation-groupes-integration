@@ -1,0 +1,18 @@
+<div class="config-grpes">
+    <div class="container">
+        <div class="input users">
+            <input type="number" min="1" [(ngModel)]="nbUsers" placeholder="Nombre d'utilisateurs">
+        </div>
+        <div class="input groups">
+            <input type="number" min="1" [(ngModel)]="nbGrps" placeholder="Nombre de groupes">
+        </div>
+        <div class="radio last-group">
+            <p>Configuration du dernier groupe</p>
+            <input type="radio" id="lastmin" name="last" [(ngModel)]="lastGrp" value="LAST_MIN">
+            <label for="lastmin">LAST_MIN</label>
+            <input type="radio" id="lastmax" name="last" [(ngModel)]="lastGrp" value="LAST_MAX">
+            <label for="lastmax">LAST_MAX</label>
+        </div>
+        <button (click)="createConfig()" [disabled]="! nbUsers || !nbGrps || !lastGrp">Valider</button>
+    </div>
+</div>
