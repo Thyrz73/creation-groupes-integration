@@ -1,4 +1,11 @@
 <div class="config-grpes">
+    <div class="dashboard">
+        <p>Administrateur</p>
+        <div class="buttons">
+            <a [routerLink]="['/config']" routerLinkActive="active" ><div class="btn">Configuration des groupes</div></a>
+            <a [routerLink]="['/overview']" routerLinkActive="active" ><div class="btn">Modification des groupes</div></a>
+        </div>
+    </div>
     <div class="container">
         <div class="input users">
             <label for="usersid">Choix du nombre total d'utilisateurs : </label>

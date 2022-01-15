@@ -18,6 +18,7 @@ import { DatabaseService } from './services/database.service';
 import { OverviewComponent } from './components/admin/overview/overview.component';
 
 const appRoutes: Routes = [
+  {path: '', component: LoginComponent},
   {path: 'config', component: ConfigGrpesComponent},
   {path: 'overview', component: OverviewComponent}
 ]

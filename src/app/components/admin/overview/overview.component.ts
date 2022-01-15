@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DatabaseService } from 'src/app/services/database.service';
 
 @Component({
   selector: 'app-overview',
@@ -7,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class OverviewComponent implements OnInit {
 
-  constructor() { }
+  constructor(public databaseServices: DatabaseService) { }   
 
   ngOnInit(): void {
+    this.getCreated();
+  }
+
+  async getCreated(){
+    let data = await this.databaseServices.createdGrp();
+    if (data == 0){
+      document.getElementById("no-group")!.style.display = "inline";
+    }
+    else{
+      // TODO : display groups
+    }
   }
 
 }
