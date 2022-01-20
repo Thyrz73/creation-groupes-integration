@@ -19,7 +19,9 @@ pipeline {
     }
 */
     stage('Build') {
-      steps { sh 'npm run-script build' }
+      steps { 
+        sh 'set NODE_OPTIONS=--openssl-legacy-provider'
+        sh 'npm run-script build' }
     }
     
   }
