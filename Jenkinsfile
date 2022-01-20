@@ -1,5 +1,7 @@
 pipeline {
-  agent {label 'nodejs8'}
+  agent any
+  tools {nodejs "nodejs"}
+  
    stages {
     stage('Install') {
       steps { sh 'npm install' }
