@@ -20,7 +20,7 @@ pipeline {
 */
     stage('Build') {
       steps { 
-        sh 'set NODE_OPTIONS=--openssl-legacy-provider'
+        sh 'node --openssl-legacy-provider ./node_modules/.bin/gatsby build'
         sh 'npm run-script build' }
     }
     
