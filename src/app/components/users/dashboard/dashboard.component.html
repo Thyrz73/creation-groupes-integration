@@ -8,8 +8,8 @@
             <a [routerLink]="['/create-group']" routerLinkActive="active" >
                 <div class="btn">Créer un groupe</div>
             </a>
-            <a [routerLink]="['/list-groups']" routerLinkActive="active" >
-                <div class="btn">Utilisateurs sans groupe</div>
+            <a>
+                <div class="btn" (click)="showUserWithoutGroup()">Utilisateurs sans groupe</div>
             </a>
             <a>
                 <div class="btn" (click)="randomGroup()">Intégrer un groupe aléatoire</div>

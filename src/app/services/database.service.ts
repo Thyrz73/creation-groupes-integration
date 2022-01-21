@@ -56,13 +56,16 @@ export class DatabaseService {
 
   // Get users without a groups
   async getUsersWithoutGroup(){
+    let list: String [] = [];
     const userRef = collection(this.db, "Users");
     const q = query(userRef, where("Group", "==", 0));
     const snapShot = getDocs(q);
 
     (await snapShot).forEach((doc)=>{
-      console.log(doc.data()["Name"]);
+      list.push(doc.data()["Name"]);
     });
+    console.log(list);
+    return list;
   }
 
   // Get incomplete groups
@@ -80,14 +83,13 @@ export class DatabaseService {
   }
 
   // Put a user in random group
-  async putInRandomGroup(username: String, random: String){
+  async putInRandomGroup(username: string, random: String){
     let group = "Group"+random;
-    let name = ""+username;
     await updateDoc(doc(this.db, 'Groups', group), {
       Users: arrayUnion(username),
       FreePlace: increment(-1)
     });
-    await updateDoc(doc(this.db, "Users", name), {
+    await updateDoc(doc(this.db, "Users", username), {
       Group: random
     });
   }
@@ -133,6 +135,20 @@ export class DatabaseService {
 
   async removeFromGroup(username: String){
 
+  }
+
+  // Register username if login for first time
+  async logInName(username: string){
+    const userRef = collection(this.db, "Users");
+    const q = query(userRef, where("Name", "==", username));
+    const snapShot = getDocs(q);
+    
+    if((await snapShot).empty){
+      await setDoc(doc(this.db, 'Users', username), {
+        Group: 0,
+        Name: username
+      });
+    }
   }
   
 }

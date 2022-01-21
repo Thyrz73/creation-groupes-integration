@@ -1,0 +1,14 @@
+<div class="login">
+    <div class="box">
+        <h1>Connexion</h1>
+        <form>
+            <div class="input">
+                <input type="text" placeholder="Username" name="username" [(ngModel)]="username">
+            </div>
+            <div class="error" id="error">Login incorrect</div>
+            <div class="btn">
+                <input type="submit" value="Login" (click)="loginuser()">
+            </div>
+        </form>
+    </div>
+</div>

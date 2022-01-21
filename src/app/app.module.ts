@@ -20,10 +20,12 @@ import { DashboardComponent } from './components/users/dashboard/dashboard.compo
 import { MyGroupComponent } from './components/users/my-group/my-group.component';
 import { HomeComponent } from './components/home/home.component';
 import { RandomGroupComponent } from './components/users/random-group/random-group.component';
+import { UserLoginComponent } from './components/users/user-login/user-login.component';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'login-admin', component: LoginComponent},
+  {path: 'user-login', component: UserLoginComponent},
   {path: 'config', component: ConfigGrpesComponent},
   {path: 'overview', component: OverviewComponent},
   {path: 'dashboard-user', component: DashboardComponent},
@@ -41,7 +43,8 @@ const appRoutes: Routes = [
     CreateGrpComponent,
     MyGroupComponent,
     HomeComponent,
-    RandomGroupComponent
+    RandomGroupComponent,
+    UserLoginComponent
   ],
   imports: [
     BrowserModule,

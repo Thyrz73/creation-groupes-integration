@@ -23,4 +23,21 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  async showUserWithoutGroup(){
+    await this.databaseService.getUsersWithoutGroup().then((res) => {
+      let  listContainer = document.createElement('div'),
+        listElement = document.createElement('ul'), listItem,i;
+        listContainer.setAttribute("style","margin-left:50%");
+        document.getElementsByTagName('body')[0].appendChild(listContainer);
+        listContainer.appendChild(listElement);
+
+        res.forEach(element => {
+            listItem = document.createElement('li');
+            listItem.innerHTML = element.toString();
+            listElement.appendChild(listItem);
+        });
+              
+    })
+  }
+
 }
