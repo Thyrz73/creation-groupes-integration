@@ -133,8 +133,13 @@ export class DatabaseService {
     return groupNames;
   }
 
-  async removeFromGroup(username: String){
-
+  async removeFromGroup(username: string, id: string){
+    await updateDoc(doc(this.db, 'Users', username), {
+      Group: 0
+    });
+    await updateDoc(doc(this.db, "Groups", id), {
+      FreePlace: increment(1),
+    });
   }
 
   // Register username if login for first time

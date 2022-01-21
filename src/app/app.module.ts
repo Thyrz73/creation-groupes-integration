@@ -21,6 +21,7 @@ import { MyGroupComponent } from './components/users/my-group/my-group.component
 import { HomeComponent } from './components/home/home.component';
 import { RandomGroupComponent } from './components/users/random-group/random-group.component';
 import { UserLoginComponent } from './components/users/user-login/user-login.component';
+import { ListUsersComponent } from './components/users/list-users/list-users.component';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
@@ -30,7 +31,8 @@ const appRoutes: Routes = [
   {path: 'overview', component: OverviewComponent},
   {path: 'dashboard-user', component: DashboardComponent},
   {path: 'my-group', component: MyGroupComponent},
-  {path: 'random-group', component: RandomGroupComponent}
+  {path: 'random-group', component: RandomGroupComponent},
+  {path: 'list-users', component: ListUsersComponent}
 ]
 
 @NgModule({
@@ -44,7 +46,8 @@ const appRoutes: Routes = [
     MyGroupComponent,
     HomeComponent,
     RandomGroupComponent,
-    UserLoginComponent
+    UserLoginComponent,
+    ListUsersComponent
   ],
   imports: [
     BrowserModule,

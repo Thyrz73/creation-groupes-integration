@@ -1,4 +1,4 @@
-<div class="my-group">
+<div class="list-users">
     <div class="dashboard">
         <p>Utilisateurs</p>
         <div class="buttons">
@@ -15,17 +15,5 @@
                 <div class="btn" (click)="randomGroup()">Intégrer un groupe aléatoire</div>
             </a>
         </div>
-    </div>
-    <div class="infos">
-        <div class="box" *ngIf="noGroup">
-            <h1>Groupe {{groupName}}</h1>
-            <div class="list">
-                <div class="users" *ngFor="let user of users">
-                    <p>{{user}}</p>
-                </div>
-            </div>
-            <a [routerLink]="['/my-group']" routerLinkActive="active" ><div class="btn" (click)="quitGroup">Quitter le groupe</div></a>
-        </div>
-        <div class="noGroup" *ngIf="!noGroup">Vous ne faîtes actuellement parti d'aucun groupe.</div>
     </div>
 </div>
