@@ -14,13 +14,14 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  loginAdmin(){
+  loginAdmin(): String{
     if(this.username === "admin"){
       this.router.navigate(['/config']);
+      return 'login ok';
     }
     else{
       document.getElementById("error")!.style.display = "inline";
-      console.log("Login incorrect");
+      return 'login error';
     }
   }
 

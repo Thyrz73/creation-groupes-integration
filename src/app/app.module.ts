@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { Routes, RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/admin/login/login.component';
-import { DashboardComponent } from './components/admin/dashboard/dashboard.component';
 import { ConfigGrpesComponent } from './components/admin/config-grpes/config-grpes.component';
 
 import { environment } from 'src/environments/environment';
@@ -16,11 +15,20 @@ import { FormsModule } from '@angular/forms'
 
 import { DatabaseService } from './services/database.service';
 import { OverviewComponent } from './components/admin/overview/overview.component';
+import { CreateGrpComponent } from './components/users/create-grp/create-grp.component';
+import { DashboardComponent } from './components/users/dashboard/dashboard.component';
+import { MyGroupComponent } from './components/users/my-group/my-group.component';
+import { HomeComponent } from './components/home/home.component';
+import { RandomGroupComponent } from './components/users/random-group/random-group.component';
 
 const appRoutes: Routes = [
-  {path: '', component: LoginComponent},
+  {path: '', component: HomeComponent},
+  {path: 'login-admin', component: LoginComponent},
   {path: 'config', component: ConfigGrpesComponent},
-  {path: 'overview', component: OverviewComponent}
+  {path: 'overview', component: OverviewComponent},
+  {path: 'dashboard-user', component: DashboardComponent},
+  {path: 'my-group', component: MyGroupComponent},
+  {path: 'random-group', component: RandomGroupComponent}
 ]
 
 @NgModule({
@@ -29,7 +37,11 @@ const appRoutes: Routes = [
     LoginComponent,
     DashboardComponent,
     ConfigGrpesComponent,
-    OverviewComponent
+    OverviewComponent,
+    CreateGrpComponent,
+    MyGroupComponent,
+    HomeComponent,
+    RandomGroupComponent
   ],
   imports: [
     BrowserModule,

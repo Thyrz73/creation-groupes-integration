@@ -18,7 +18,8 @@ export class ConfigGrpesComponent implements OnInit {
   }
 
   createConfig(){
-    this.databaseService.newConfig(this.nbUsers, this.nbGrps, this.lastGrp);
+    let usersPerGroup = Math.abs(this.nbUsers/this.nbGrps);
+    this.databaseService.newConfig(this.nbUsers, this.nbGrps, this.lastGrp, usersPerGroup);
   }
 
   readData(){

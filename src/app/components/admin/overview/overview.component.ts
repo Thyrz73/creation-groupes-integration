@@ -20,7 +20,14 @@ export class OverviewComponent implements OnInit {
       document.getElementById("no-group")!.style.display = "inline";
     }
     else{
-      // TODO : display groups
+      this.databaseServices.getCreatedGroups();
+      await this.databaseServices.getCreatedGroups().then((res) => {
+        res.forEach((data) => {
+          for (let i=0; i<data.length; i++){
+            console.log("Group",i+1, data[i]);
+          }
+        })
+      })
     }
   }
 

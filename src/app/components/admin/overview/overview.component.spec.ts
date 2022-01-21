@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { OverviewComponent } from './overview.component';
+import { DatabaseService } from 'src/app/services/database.service';
+import { AngularFireModule } from '@angular/fire/compat';
+import { environment } from 'src/environments/environment';
 
 describe('OverviewComponent', () => {
   let component: OverviewComponent;
@@ -8,7 +11,9 @@ describe('OverviewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ OverviewComponent ]
+      declarations: [ OverviewComponent ],
+      imports: [AngularFireModule.initializeApp(environment.firebaseConfig)],
+      providers: [ DatabaseService ]
     })
     .compileComponents();
   });
