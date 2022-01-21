@@ -22,7 +22,7 @@ describe('ConfigGrpesComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfigGrpesComponent);
     component = fixture.componentInstance;
-    //fixture.detectChanges();
+    fixture.detectChanges();
   });
 
   it('should create', () => {

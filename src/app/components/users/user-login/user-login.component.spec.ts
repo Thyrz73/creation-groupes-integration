@@ -1,6 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { RouterModule } from '@angular/router';
+
 import { UserLoginComponent } from './user-login.component';
+import { environment } from 'src/environments/environment';
+import { AngularFireModule } from '@angular/fire/compat';
+import { DatabaseService } from 'src/app/services/database.service';
 
 describe('UserLoginComponent', () => {
   let component: UserLoginComponent;
@@ -8,7 +13,10 @@ describe('UserLoginComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UserLoginComponent ]
+      declarations: [ UserLoginComponent ],
+      imports: [AngularFireModule.initializeApp(environment.firebaseConfig),
+                RouterModule.forRoot([])],
+      providers: [ DatabaseService ]
     })
     .compileComponents();
   });

@@ -14,8 +14,8 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  loginAdmin(): String{
-    if(this.username === "admin"){
+  loginAdmin(username: any): String{
+    if(username === "admin"){
       this.router.navigate(['/config']);
       return 'login ok';
     }

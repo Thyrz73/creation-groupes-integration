@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DashboardComponent } from './dashboard.component';
+import { environment } from 'src/environments/environment';
+import { AngularFireModule } from '@angular/fire/compat';
+import { DatabaseService } from 'src/app/services/database.service';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -8,7 +11,9 @@ describe('DashboardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DashboardComponent ]
+      declarations: [ DashboardComponent ],
+      imports: [AngularFireModule.initializeApp(environment.firebaseConfig)],
+      providers: [ DatabaseService ]
     })
     .compileComponents();
   });
@@ -21,5 +26,9 @@ describe('DashboardComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should create div', () => {
+    // TODO
   });
 });

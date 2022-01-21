@@ -41,42 +41,20 @@ describe('LoginComponent', () => {
     expect(component.username).toBeUndefined();
   };
 
-  it ('should return login error when login incorrect', () => {
-    
+  it('should return login ok when login=admin', () => {
+    expect(component.loginAdmin('admin')).toEqual('login ok');
+  })
+
+  it ('should return login error when login!=admin or empty', () => {
+    expect(component.loginAdmin('')).toEqual('login error');
+    expect(component.loginAdmin('admi')).toEqual('login error');
   })
 
   it('should display error on screen when login incorrect', () => {
-    // const div: HTMLElement = fixture.nativeElement.querySelector('div');
-    // const display = div.style.display;
-    // expect(display).toBe('inline');
-  });
-  
-  it('display Username Error Msg when Username is blank', () => {
-//     updateForm("");
-//     fixture.detectChanges();
-// ​
-//     const button = fixture.debugElement.nativeElement.querySelector('button');
-//     button.click();
-//     fixture.detectChanges();
-// ​
-//     const usernameErrorMsg = fixture.debugElement.nativeElement.querySelector('#username-error-msg');
-//     expect(usernameErrorMsg).toBeDefined();
-//     expect(usernameErrorMsg.innerHTML).toContain('Please enter username');
+    // TODO
   });
 
   it('should route to overview if login successfully'), () => {
-//     updateForm(validUser.username);
-//     fixture.detectChanges();
-//     const button = fixture.debugElement.nativeElement.querySelector('button');
-//     button.click();
-//     advance(fixture);
-// ​
-//     loginSpy = loginServiceSpy.login.and.returnValue(Promise.resolve(testUserData));
-//     advance(fixture);
-// ​
-//     expect(routerSpy.navigateByUrl).toHaveBeenCalled();
-//     const navArgs = routerSpy.navigateByUrl.calls.first().args[0];
-//     // expecting to navigate to id of the component's first hero
-//     expect(navArgs).toBe('/home', 'should nav to Home Page');    
+    // TODO
   }
 });

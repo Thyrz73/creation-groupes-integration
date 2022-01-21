@@ -47,6 +47,7 @@ export class DatabaseService {
         return data;
       } catch (err) {
         console.error(err);
+        return 'err';
       }
     }
     else{
