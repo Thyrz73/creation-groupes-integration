@@ -22,6 +22,7 @@ import { HomeComponent } from './components/home/home.component';
 import { RandomGroupComponent } from './components/users/random-group/random-group.component';
 import { UserLoginComponent } from './components/users/user-login/user-login.component';
 import { ListUsersComponent } from './components/users/list-users/list-users.component';
+import { SharedService } from './services/shared.service';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
@@ -58,7 +59,7 @@ const appRoutes: Routes = [
     FormsModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [DatabaseService],
+  providers: [DatabaseService, SharedService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

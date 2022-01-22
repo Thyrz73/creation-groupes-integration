@@ -1,4 +1,5 @@
-.random-grp .group-name {
+.random-grp .group-name,
+.already-group {
   display: none;
   position: absolute;
   top: 35%;

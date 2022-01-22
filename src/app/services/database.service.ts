@@ -16,10 +16,12 @@ export class DatabaseService {
   // Write admin config settings in db
   async newConfig(users: number, groups: number, last: string, userPerGroup: number){
     await setDoc(doc(this.db, 'Configuration', 'configID'), {
+      CurrentGroups: 0,
       Groups: groups,
       Last: last,
+      NbCurrentUsers: 0,
+      Users: users,
       UsersPerGroup: userPerGroup,
-      Users: users
     });
   }
 
@@ -148,13 +150,34 @@ export class DatabaseService {
     const userRef = collection(this.db, "Users");
     const q = query(userRef, where("Name", "==", username));
     const snapShot = getDocs(q);
+    const refUsersCurrent = await getDoc(doc(this.db, "Configuration", "configID"));
+    const usersCurrent = refUsersCurrent.data()!["NbCurrentUsers"];
+    const refUsersMax = await getDoc(doc(this.db, "Configuration", "configID"));
+    const usersMax = refUsersMax.data()!["Users"];
     
-    if((await snapShot).empty){
-      await setDoc(doc(this.db, 'Users', username), {
-        Group: 0,
-        Name: username
-      });
+    if(usersCurrent < usersMax){
+      if((await snapShot).empty){
+        await setDoc(doc(this.db, 'Users', username), {
+          Group: 0,
+          Name: username
+        });
+        await updateDoc(doc(this.db, "Configuration", "configID"), {
+          NbCurrentUsers: increment(1)
+        })
+      }
+      return true;
     }
+    else{
+      if((await snapShot).empty){
+        return false;
+      }
+      return true;
+    }
+  }
+
+  // Delete group
+  deleteGrp(id: number){
+    const groupRef = collection(this.db, "Groups");
   }
   
 }

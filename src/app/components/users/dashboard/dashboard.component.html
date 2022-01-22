@@ -6,18 +6,19 @@
                 <div class="btn">Mon groupe</div>
             </a>
             <a [routerLink]="['/create-group']" routerLinkActive="active" >
-                <div class="btn">Créer un groupe</div>
+                <div class="btn" id="btn-create">Créer un groupe</div>
+            </a>
+            <a [routerLink]="['/list-users']" routerLinkActive="active" >
+                <div class="btn">Utilisateurs sans groupe</div>
             </a>
             <a>
-                <div class="btn" (click)="showUserWithoutGroup()">Utilisateurs sans groupe</div>
-            </a>
-            <a>
-                <div class="btn" (click)="randomGroup()">Intégrer un groupe aléatoire</div>
+                <div class="btn" id="btn-random" (click)="randomGroup()">Intégrer un groupe aléatoire</div>
             </a>
         </div>
     </div>
     <div class="container">
         <div class="group-name" id="group-name">Vous avez été intégré dans un groupe aléatoire.
             <br>Votre groupe est le groupe {{random}}. <br> Vous pouvez voire votre groupe dans 'Mon groupe'. </div>
+        <div class="already-group" id="already-group">Vous êtes déjà dans un groupe, <br> vous ne pouvez pas en intégrer un autre.</div>
     </div>
 </div>

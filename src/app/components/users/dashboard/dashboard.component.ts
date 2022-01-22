@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from 'src/app/services/database.service';
+import { SharedService } from 'src/app/services/shared.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,36 +9,40 @@ import { DatabaseService } from 'src/app/services/database.service';
 })
 export class DashboardComponent implements OnInit {
   random = '';
+  groupName: string = '';
+  noGroup: Boolean = true;
+  currentUser: string = '';
 
-  constructor(public databaseService: DatabaseService) { }
+  constructor(public databaseService: DatabaseService, public sharedService: SharedService) { }
 
   ngOnInit(): void {
+    this.currentUser = this.sharedService.getCurrentUsername();
+    this.disableRandom();
   }
 
   async randomGroup(){
-    await this.databaseService.getIncompleteGroups().then().then((res) => {
-      this.random = res[Math.floor(Math.random()*res.length)].toString();
-      document.getElementById("group-name")!.style.display = "inline";
-      this.databaseService.putInRandomGroup('koko', this.random);
-      return res;
-    });
+    this.sharedService.setRandomClicked();
+    this.disableRandom();
+    await this.databaseService.getGroupName(this.currentUser).then((res) => {
+      this.groupName = res!;
+    })
+    this.groupName !== '0' ? 
+                          document.getElementById("already-group")!.style.display = "inline"
+                          :
+                          await this.databaseService.getIncompleteGroups().then((res) => {
+                            this.random = res[Math.floor(Math.random()*res.length)].toString();
+                            document.getElementById("group-name")!.style.display = "inline";
+                            this.databaseService.putInRandomGroup(this.currentUser, this.random);
+                            return res;
+                          });
   }
 
-  async showUserWithoutGroup(){
-    await this.databaseService.getUsersWithoutGroup().then((res) => {
-      let  listContainer = document.createElement('div'),
-        listElement = document.createElement('ul'), listItem,i;
-        listContainer.setAttribute("style","margin-left:50%");
-        document.getElementsByTagName('body')[0].appendChild(listContainer);
-        listContainer.appendChild(listElement);
-
-        res.forEach(element => {
-            listItem = document.createElement('li');
-            listItem.innerHTML = element.toString();
-            listElement.appendChild(listItem);
-        });
-              
-    })
+  disableRandom(){
+    // console.log(this.sharedService.getRandomClicked());
+    if (this.sharedService.getRandomClicked()){
+      document.getElementById("btn-random")!.style.pointerEvents = "none";
+      document.getElementById("btn-random")!.style.backgroundColor = "gray";
+    }
   }
 
 }

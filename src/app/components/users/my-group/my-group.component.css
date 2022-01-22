@@ -54,3 +54,11 @@
   text-decoration: none;
   color: black;
 }
+
+.no-group {
+  margin-left: -50px;
+  margin-top: 50px;
+  font-weight: bold;
+  font-size: 36px;
+  color: gray;
+}

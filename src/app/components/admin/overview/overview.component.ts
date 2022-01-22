@@ -7,6 +7,8 @@ import { DatabaseService } from 'src/app/services/database.service';
   styleUrls: ['./overview.component.css']
 })
 export class OverviewComponent implements OnInit {
+  list: String [] = [];
+  nbGroup: number = 0;
 
   constructor(public databaseServices: DatabaseService) { }   
 
@@ -22,13 +24,18 @@ export class OverviewComponent implements OnInit {
     else{
       this.databaseServices.getCreatedGroups();
       await this.databaseServices.getCreatedGroups().then((res) => {
+        let j=0;
         res.forEach((data) => {
-          for (let i=0; i<data.length; i++){
-            console.log("Group",i+1, data[i]);
-          }
+          this.list[j] = data;
+          j++;
         })
       })
+      this.nbGroup = this.list.length;
     }
+  }
+
+  deleteGroup(id: number){
+    this.databaseServices.deleteGrp(id);
   }
 
 }
