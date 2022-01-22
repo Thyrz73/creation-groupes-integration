@@ -18,6 +18,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.currentUser = this.sharedService.getCurrentUsername();
     this.disableRandom();
+    document.getElementById("list-container")?.remove();
   }
 
   async randomGroup(){
@@ -25,8 +26,9 @@ export class DashboardComponent implements OnInit {
     this.disableRandom();
     await this.databaseService.getGroupName(this.currentUser).then((res) => {
       this.groupName = res!;
-    })
-    this.groupName !== '0' ? 
+    });
+    console.log("GROUPE CHANGE = ",parseInt(this.groupName));
+    parseInt(this.groupName) !== 0 ? 
                           document.getElementById("already-group")!.style.display = "inline"
                           :
                           await this.databaseService.getIncompleteGroups().then((res) => {
@@ -40,8 +42,8 @@ export class DashboardComponent implements OnInit {
   disableRandom(){
     // console.log(this.sharedService.getRandomClicked());
     if (this.sharedService.getRandomClicked()){
-      document.getElementById("btn-random")!.style.pointerEvents = "none";
-      document.getElementById("btn-random")!.style.backgroundColor = "gray";
+      document.getElementById("btn-random")?.setAttribute("style", "pointer-events:none");
+      document.getElementById("btn-random")?.setAttribute("style", "background-color:gray");
     }
   }
 

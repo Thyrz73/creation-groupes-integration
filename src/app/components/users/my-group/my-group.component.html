@@ -24,7 +24,9 @@
                     <p>{{user}}</p>
                 </div>
             </div>
-            <a [routerLink]="['/my-group']" routerLinkActive="active" ><div class="btn" (click)="quitGroup">Quitter le groupe</div></a>
+            <a [routerLink]="['/dashboard-user']" routerLinkActive="active" >
+                <div class="btn" (click)="quitGroup()">Quitter le groupe</div>
+            </a>
         </div>
         <div class="no-group" *ngIf="noGroup">Vous ne faîtes actuellement parti d'aucun groupe.</div>
     </div>

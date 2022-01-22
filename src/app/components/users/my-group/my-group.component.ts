@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from 'src/app/services/database.service';
 import { UserLoginComponent } from '../user-login/user-login.component';
 import { SharedService } from 'src/app/services/shared.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-group',
@@ -15,12 +16,15 @@ export class MyGroupComponent implements OnInit {
   noGroup: Boolean = true;
   currentUser = '';
   
-  constructor(public databaseService: DatabaseService, public sharedService: SharedService) { }
+  constructor(private router: Router,
+    public databaseService: DatabaseService, 
+    public sharedService: SharedService) { }
 
   ngOnInit(): void {
     this.currentUser = this.sharedService.getCurrentUsername();
     this.groupInfos(this.currentUser);
     this.disableRandom();
+    document.getElementById("list-container")?.remove();
   }
 
   async groupInfos(username: String){
@@ -42,6 +46,7 @@ export class MyGroupComponent implements OnInit {
   quitGroup(){
     this.databaseService.removeFromGroup(this.currentUser, this.groupName);
     this.sharedService.setQuitCliked();
+    alert("Vous avez bien quitté votre groupe.");
   }
 
   async randomGroup(){
@@ -49,15 +54,15 @@ export class MyGroupComponent implements OnInit {
     this.disableRandom();
     await this.databaseService.getGroupName(this.currentUser).then((res) => {
       this.groupName = res!;
-    })
-    this.groupName !== '0' ? 
+    });
+    console.log("GROUPE CHANGE = ",parseInt(this.groupName));
+    parseInt(this.groupName) !== 0 ? 
                           document.getElementById("already-group")!.style.display = "inline"
                           :
-                          await this.databaseService.getIncompleteGroups().then().then((res) => {
+                          await this.databaseService.getIncompleteGroups().then((res) => {
                             this.random = res[Math.floor(Math.random()*res.length)].toString();
                             document.getElementById("group-name")!.style.display = "inline";
                             this.databaseService.putInRandomGroup(this.currentUser, this.random);
-                            this.sharedService.setRandomClicked();
                             return res;
                           });
   }
@@ -65,8 +70,8 @@ export class MyGroupComponent implements OnInit {
   disableRandom(){
     // console.log(this.sharedService.getRandomClicked());
     if (this.sharedService.getRandomClicked()){
-      document.getElementById("btn-random")!.style.pointerEvents = "none";
-      document.getElementById("btn-random")!.style.backgroundColor = "gray";
+      document.getElementById("btn-random")?.setAttribute("style", "pointer-events:none");
+      document.getElementById("btn-random")?.setAttribute("style", "background-color:gray");
     }
   }
 }

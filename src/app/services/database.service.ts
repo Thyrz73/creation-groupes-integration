@@ -67,7 +67,6 @@ export class DatabaseService {
     (await snapShot).forEach((doc)=>{
       list.push(doc.data()["Name"]);
     });
-    console.log(list);
     return list;
   }
 
@@ -86,14 +85,14 @@ export class DatabaseService {
   }
 
   // Put a user in random group
-  async putInRandomGroup(username: string, random: String){
+  async putInRandomGroup(username: string, random: string){
     let group = "Group"+random;
     await updateDoc(doc(this.db, 'Groups', group), {
       Users: arrayUnion(username),
       FreePlace: increment(-1)
     });
     await updateDoc(doc(this.db, "Users", username), {
-      Group: random
+      Group: parseInt(random)
     });
   }
 
@@ -136,12 +135,32 @@ export class DatabaseService {
     return groupNames;
   }
 
+  // Remove user from group
   async removeFromGroup(username: string, id: string){
     await updateDoc(doc(this.db, 'Users', username), {
       Group: 0
     });
-    await updateDoc(doc(this.db, "Groups", id), {
+
+    let list: String[] = [], user;
+    const userRef = collection(this.db, "Groups");
+    const q = query(userRef, where("Id", "==", id));
+    const snapShot = getDocs(q);
+
+    (await snapShot).forEach((doc)=>{
+      user = doc.data()["Users"];
+      list.push(user);
+    });
+
+    let finalList: String[] = [], j=0;
+    for(let i=0; i<list[0].length; i++){
+      if(list[0][i]!==username){
+        finalList[j] = list[0][i];
+        j++;
+      }
+    }
+    await updateDoc(doc(this.db, 'Groups', "Group"+id), {
       FreePlace: increment(1),
+      Users: finalList
     });
   }
 

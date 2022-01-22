@@ -20,7 +20,7 @@ export class UserLoginComponent implements OnInit {
   }
 
   async loginuser(){
-    if(this.username !== null && this.username.length > 0){
+    if(this.username !== null && this.username.length > 0 && !this.username.startsWith(' ')){
       await this.databaseService.logInName(this.username).then((res) => {
         if (res){
           this.router.navigate(['/dashboard-user']);
