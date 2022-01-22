@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from 'src/app/services/database.service';
 import { UserLoginComponent } from '../user-login/user-login.component';
 import { SharedService } from 'src/app/services/shared.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-group',
@@ -16,8 +15,7 @@ export class MyGroupComponent implements OnInit {
   noGroup: Boolean = true;
   currentUser = '';
   
-  constructor(private router: Router,
-    public databaseService: DatabaseService, 
+  constructor(public databaseService: DatabaseService, 
     public sharedService: SharedService) { }
 
   ngOnInit(): void {
