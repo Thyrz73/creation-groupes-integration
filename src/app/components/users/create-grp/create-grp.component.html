@@ -1,12 +1,126 @@
-<div class="create-grp">
-    <div class="container">
-        <div class="input group">
-            <input type="text" placeholder="Nom du groupe">
+<div class="my-group">
+    <div class="dashboard">
+        <p>Utilisateurs</p>
+        <div class="buttons">
+            <a [routerLink]="['/my-group']" routerLinkActive="active" >
+                <div class="btn">Mon groupe</div>
+            </a>
+            <a [routerLink]="['/create-group']" routerLinkActive="active" >
+                <div class="btn" id="btn-create">Créer un groupe</div>
+            </a>
+            <a [routerLink]="['/list-users']" routerLinkActive="active">
+                <div class="btn">Utilisateurs sans groupe</div>
+            </a>
+            <a [routerLink]="['/dashboard-user']" routerLinkActive="active">
+                <div class="btn" id="btn-random" (click)="randomGroup()">Intégrer un groupe aléatoire</div>
+            </a>
         </div>
-        <div class="input users">
-            <label for="groupsid">Choix du nombre total de groupes : </label>
-            <input type="text" placeholder="Nom de l'utilisateur">
+    </div>
+    <div class="infos">
+        <div class="box" *ngIf="!userInGroup && !maxGroup">
+            <div class="list">
+                inviter des utilisateurs au groupe créé :
+                <input [(ngModel)]="inputUserName" id="input-grp-name" type="text"  placeholder="nom d'utilisateur">
+                <button (click)="sendInv()" style="width:30%; height:3em">inviter</button>
+            </div>
+            <div id="inv-text" style="height: 2em;">utilisateur invité</div>
+            <div id="inv-failed-text">utilisateur introuvable</div>
+            <div id="created-text" style="height: 2em;">Groupe créé avec succès</div>
+            <div id="create-failed-text">nombre max de groupes atteint</div>
+            <a routerLinkActive="active" ><div class="btn" (click)="createGroup()">créer le groupe</div></a>
         </div>
-        <button class="btn">Valider</button>
+        <div class="cant-create">
+            <div class="already-in-grp" *ngIf="userInGroup">
+                Vous faîtes déjà parti d'un groupe. <br>Vous ne pouvez pas créer un groupe.
+            </div>
+            <div class="max-grp" *ngIf="maxGroup">
+                Nombre maximum de groupes atteint. <br> Vous ne pouvez pas créer un groupe.
+                <br> Veuillez rejoindre un groupe déjà existant.
+            </div>
+        </div>
     </div>
 </div>
+<!-- <div class="my-group">
+    <div class="dashboard">
+        <p>Utilisateurs</p>
+        <div class="buttons">
+            <a [routerLink]="['/my-group']" routerLinkActive="active" >
+                <div class="btn">Mon groupe</div>
+            </a>
+            <a [routerLink]="['/create-group']" routerLinkActive="active" >
+                <div class="btn" id="btn-create">Créer un groupe</div>
+            </a>
+            <a [routerLink]="['/list-users']" routerLinkActive="active">
+                <div class="btn">Utilisateurs sans groupe</div>
+            </a>
+            <a [routerLink]="['/dashboard-user']" routerLinkActive="active">
+                <div class="btn" id="btn-random" (click)="randomGroup()">Intégrer un groupe aléatoire</div>
+            </a>
+        </div>
+    </div>
+    <div class="infos">
+        <div class="box" *ngIf="!userInGroup && !maxGroup">
+            <div class="list">
+                inviter des utilisateurs au groupe créé :
+                <input [(ngModel)]="inputUserName" id="input-grp-name" type="text"  placeholder="nom d'utilisateur">
+                <button (click)="sendInv()" style="width:30%; height:3em">inviter</button>
+            </div>
+            <div id="inv-text" style="height: 2em;">utilisateur invité</div>
+            <div id="inv-failed-text">utilisateur introuvable</div>
+            <div id="created-text" style="height: 2em;">Groupe créé avec succès</div>
+            <div id="create-failed-text">nombre max de groupes atteint</div>
+            <a routerLinkActive="active" ><div class="btn" (click)="createGroup()">créer le groupe</div></a>
+        </div>
+        <div class="cant-create">
+            <div class="already-in-grp" *ngIf="userInGroup">
+                Vous faîtes déjà parti d'un groupe. <br>Vous ne pouvez pas créer un groupe.
+            </div>
+            <div class="max-grp" *ngIf="maxGroup">
+                Nombre maximum de groupes atteint. <br> Vous ne pouvez pas créer un groupe.
+                <br> Veuillez rejoindre un groupe déjà existant.
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <div class="my-group">
+    <div class="dashboard">
+        <p>Utilisateurs</p>
+        <div class="buttons">
+            <a [routerLink]="['/my-group']" routerLinkActive="active" >
+                <div class="btn">Mon groupe</div>
+            </a>
+            <a [routerLink]="['/create-group']" routerLinkActive="active" >
+                <div class="btn" id="btn-create">Créer un groupe</div>
+            </a>
+            <a [routerLink]="['/list-users']" routerLinkActive="active">
+                <div class="btn">Utilisateurs sans groupe</div>
+            </a>
+            <a [routerLink]="['/dashboard-user']" routerLinkActive="active">
+                <div class="btn" id="btn-random" (click)="randomGroup()">Intégrer un groupe aléatoire</div>
+            </a>
+        </div>
+    </div>
+    <div class="infos">
+        <div class="box" *ngIf="!userInGroup && !maxGroup">
+            <div class="list">
+                inviter des utilisateurs au groupe créé :
+                <input [(ngModel)]="inputUserName" id="input-grp-name" type="text"  placeholder="nom d'utilisateur">
+                <button (click)="sendInv()" style="width:30%; height:3em">inviter</button>
+            </div>
+            <div id="inv-text" style="height: 2em;">utilisateur invité</div>
+            <div id="inv-failed-text">utilisateur introuvable</div>
+            <div id="created-text" style="height: 2em;">Groupe créé avec succès</div>
+            <div id="create-failed-text">nombre max de groupes atteint</div>
+            <a routerLinkActive="active" ><div class="btn" (click)="createGroup()">créer le groupe</div></a>
+        </div>
+        <div class="cant-create">
+            <div class="already-in-grp" *ngIf="userInGroup">
+                Vous faîtes déjà parti d'un groupe. <br>Vous ne pouvez pas créer un groupe.
+            </div>
+            <div class="max-grp" *ngIf="maxGroup">
+                Nombre maximum de groupes atteint. <br> Vous ne pouvez pas créer un groupe.
+                <br> Veuillez rejoindre un groupe déjà existant.
+            </div>
+        </div>
+    </div>
+</div> --> -->

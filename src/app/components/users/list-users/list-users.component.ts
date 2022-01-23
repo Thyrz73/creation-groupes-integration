@@ -11,12 +11,16 @@ export class ListUsersComponent implements OnInit {
   random='';
   groupName: string = '';
   currentUser = '';
+  userInGroup: Boolean = true;
+  maxGroup: Boolean = true;
+
 
   constructor(public databaseService: DatabaseService, public sharedService: SharedService) { }
 
   ngOnInit(): void {
     this.showUserWithoutGroup();
     this.disableRandom();
+    this.disableCreate();
     this.currentUser = this.sharedService.getCurrentUsername();
   }
 
@@ -59,6 +63,39 @@ export class ListUsersComponent implements OnInit {
                             this.databaseService.putInRandomGroup(this.currentUser, this.random);
                             return res;
                           });
+  }
+
+  async checkIfUserInGroup(){
+    this.sharedService.setCreateClicked();
+    this.disableCreate();
+    await this.databaseService.getGroupName(this.currentUser).then((res) => {
+      if (parseInt(res!) !== 0){
+        this.userInGroup = true;
+        this.maxGroup = false;
+      }
+      else{
+        this.userInGroup = false;
+      }
+    });
+  }
+
+  async checkMaxGrp(){
+    this.databaseService.groupIsMax().then((res) => {
+      if(res){
+        this.maxGroup = true;
+        this.userInGroup = false;
+      }
+      else{
+        this.maxGroup = false;
+      }
+    })
+  }
+
+  disableCreate(){
+    if (this.sharedService.getCreateClicked()){
+      document.getElementById("btn-create")!.style.pointerEvents = "none";
+      document.getElementById("btn-create")!.style.backgroundColor = "gray";
+    }
   }
 
   disableRandom(){

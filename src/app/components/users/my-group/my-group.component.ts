@@ -14,6 +14,9 @@ export class MyGroupComponent implements OnInit {
   users: String[] = [];
   noGroup: Boolean = true;
   currentUser = '';
+  userInGroup: Boolean = true;
+  maxGroup: Boolean = true;
+
   
   constructor(public databaseService: DatabaseService, 
     public sharedService: SharedService) { }
@@ -22,6 +25,7 @@ export class MyGroupComponent implements OnInit {
     this.currentUser = this.sharedService.getCurrentUsername();
     this.groupInfos(this.currentUser);
     this.disableRandom();
+    this.disableCreate();
     document.getElementById("list-container")?.remove();
   }
 
@@ -63,6 +67,40 @@ export class MyGroupComponent implements OnInit {
                             this.databaseService.putInRandomGroup(this.currentUser, this.random);
                             return res;
                           });
+  }
+
+  async checkIfUserInGroup(){
+    this.sharedService.setCreateClicked();
+    this.disableCreate();
+    await this.databaseService.getGroupName(this.currentUser).then((res) => {
+      if (parseInt(res!) !== 0){
+        this.userInGroup = true;
+        this.maxGroup = false;
+      }
+      else{
+        this.userInGroup = false;
+      }
+    });
+  }
+
+
+  async checkMaxGrp(){
+    this.databaseService.groupIsMax().then((res) => {
+      if(res){
+        this.maxGroup = true;
+        this.userInGroup = false;
+      }
+      else{
+        this.maxGroup = false;
+      }
+    })
+  }
+  
+  disableCreate(){
+    if (this.sharedService.getCreateClicked()){
+      document.getElementById("btn-create")!.style.pointerEvents = "none";
+      document.getElementById("btn-create")!.style.backgroundColor = "gray";
+    }
   }
 
   disableRandom(){
