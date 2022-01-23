@@ -1,0 +1,19 @@
+<div class="list-users">
+    <div class="dashboard">
+        <p>Utilisateurs</p>
+        <div class="buttons">
+            <a [routerLink]="['/my-group']" routerLinkActive="active" >
+                <div class="btn">Mon groupe</div>
+            </a>
+            <a [routerLink]="['/create-group']" routerLinkActive="active" >
+                <div class="btn" id="btn-create">Créer un groupe</div>
+            </a>
+            <a [routerLink]="['/list-users']" routerLinkActive="active">
+                <div class="btn">Utilisateurs sans groupe</div>
+            </a>
+            <a [routerLink]="['/dashboard-user/:id']" routerLinkActive="active">
+                <div class="btn" id="btn-random" (click)="randomGroup()">Intégrer un groupe aléatoire</div>
+            </a>
+        </div>
+    </div>
+</div>

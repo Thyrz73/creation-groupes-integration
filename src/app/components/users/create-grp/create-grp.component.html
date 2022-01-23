@@ -1,0 +1,44 @@
+<div class="my-group">
+    <div class="dashboard">
+        <p>Utilisateurs</p>
+        <div class="buttons">
+            <a [routerLink]="['/my-group']" routerLinkActive="active" >
+                <div class="btn">Mon groupe</div>
+            </a>
+            <a [routerLink]="['/create-group']" routerLinkActive="active" >
+                <div class="btn" id="btn-create">Créer un groupe</div>
+            </a>
+            <a [routerLink]="['/list-users']" routerLinkActive="active">
+                <div class="btn">Utilisateurs sans groupe</div>
+            </a>
+            <a [routerLink]="['/dashboard-user/:id']" routerLinkActive="active">
+                <div class="btn" id="btn-random" (click)="randomGroup()">Intégrer un groupe aléatoire</div>
+            </a>
+        </div>
+    </div>
+    <div class="infos">
+        <div class="box" *ngIf="!userInGroup && !maxGroup">
+            <div class="list">
+                <h1>Inviter des utilisateurs au groupe créé :</h1>
+                <div class="invit-box">
+                    <input [(ngModel)]="inputUserName" id="input-grp-name" type="text"  placeholder="Nom d'utilisateur">
+                    <button (click)="sendInv()" style="width:30%; height:3em;cursor: pointer;">Inviter</button>
+                </div>
+            </div>
+            <div class="create-txt" id="inv-text" style="height: 2em;">Utilisateur invité !</div>
+            <div class="create-txt" id="inv-failed-text">Utilisateur introuvable !</div>
+            <div class="create-txt" id="created-text" style="height: 2em;">Groupe créé avec succès !</div>
+            <div class="create-txt" id="create-failed-text">Nombre max de groupes atteint !</div>
+            <a [routerLink]="['/my-group']" routerLinkActive="active" ><div class="btn" id="btn-create-grp" (click)="createGroup()">Créer le groupe</div></a>
+        </div>
+        <div class="cant-create">
+            <div class="already-in-grp" *ngIf="userInGroup">
+                Vous faîtes déjà parti d'un groupe. <br>Vous ne pouvez pas créer un groupe.
+            </div>
+            <div class="max-grp" *ngIf="maxGroup">
+                Nombre maximum de groupes atteint. <br> Vous ne pouvez pas créer un groupe.
+                <br> Veuillez rejoindre un groupe déjà existant.
+            </div>
+        </div>
+    </div>
+</div>

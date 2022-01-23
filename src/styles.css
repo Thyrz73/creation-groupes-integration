@@ -1,1 +1,48 @@
 /* You can add global styles to this file, and also import other style files */
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.dashboard {
+  position: fixed;
+  width: 20%;
+  height: 100%;
+  text-align: center;
+  background-color: rgb(182, 226, 224);
+  font-weight: bold;
+  padding: 30px 20px 10px 20px;
+}
+
+.dashboard p {
+  font-size: 36px;
+  border: 3px solid white;
+  border-radius: 25px;
+}
+
+.dashboard .buttons {
+  display: block;
+  margin-top: 20%;
+  margin-left: 60px;
+}
+
+.dashboard a {
+  text-decoration: none;
+  color: black;
+}
+
+.dashboard .btn {
+  height: 30px;
+  width: 200px;
+  background-color: rgb(0, 191, 255);
+  padding: 10px 5px 0 5px;
+  margin-bottom: 30px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.dashboard .btn:hover {
+  background-color: rgb(20, 153, 197);
+  color: white;
+}

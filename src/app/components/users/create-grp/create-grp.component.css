@@ -1,0 +1,123 @@
+.my-group .infos {
+  position: absolute;
+  top: 30%;
+  left: 43%;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.infos .box {
+  height: 200px;
+  width: 500px;
+  padding: 50px;
+  background-color: rgb(190, 235, 243);
+  border-radius: 10px;
+  box-shadow: 10px 5px 5px rgba(0, 0, 0, 0.09);
+  display: block;
+}
+
+.infos .box h1 {
+  font-size: 28px;
+  margin-bottom: 30px;
+}
+
+.box .invit-box {
+  display: flex;
+  margin-left: 80px;
+}
+
+.infos .box .list {
+  display: block;
+}
+
+.box .list .users {
+  font-size: 24px;
+  margin-right: 10px;
+  background-color: rgba(120, 216, 206, 0.5);
+  width: 100px;
+  text-align: center;
+  border-radius: 16px;
+}
+
+.box .btn {
+  margin-left: 350px;
+  margin-top: 100px;
+  background-color: red;
+  padding: 5px;
+  width: 150px;
+  font-weight: bold;
+  border-radius: 5px;
+  text-align: center;
+  color: white;
+  cursor: pointer;
+}
+
+.box .btn:hover {
+  background-color: rgb(185, 0, 0);
+}
+
+.box a {
+  text-decoration: none;
+  color: black;
+}
+
+.create-txt {
+  margin-left: 50px;
+  margin-top: 30px;
+}
+
+.no-group {
+  margin-left: -50px;
+  margin-top: 50px;
+  font-weight: bold;
+  font-size: 36px;
+  color: gray;
+}
+
+#create-failed-text {
+  display: none;
+  font-size: 18px;
+  font-weight: bold;
+  color: red;
+}
+
+#inv-failed-text {
+  display: none;
+  font-size: 18px;
+  font-weight: bold;
+  color: red;
+}
+
+#created-text {
+  display: none;
+  font-size: 18px;
+  font-weight: bold;
+  color: green;
+}
+
+#inv-text {
+  display: none;
+  font-size: 18px;
+  font-weight: bold;
+  color: green;
+}
+
+#input-grp-name {
+  font-size: 18px;
+  height: 2em;
+  width: 200px;
+  border: none;
+  border-bottom: 1px solid black;
+  background-color: transparent;
+  margin-right: 10px;
+}
+
+.cant-create .already-in-grp,
+.max-grp {
+  margin-left: -50px;
+  margin-top: 50px;
+  font-weight: bold;
+  font-size: 36px;
+  color: gray;
+}

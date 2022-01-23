@@ -1,0 +1,27 @@
+<div class="config-grpes">
+    <div class="dashboard">
+        <p>Administrateur</p>
+        <div class="buttons">
+            <a [routerLink]="['/config']" routerLinkActive="active" ><div class="btn">Configuration des groupes</div></a>
+            <a [routerLink]="['/overview']" routerLinkActive="active" ><div class="btn">Liste des groupes</div></a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="input users">
+            <label for="usersid">Choix du nombre total d'utilisateurs : </label>
+            <input type="number" id="usersid" min="1" [(ngModel)]="nbUsers" placeholder="Nombre d'utilisateurs">
+        </div>
+        <div class="input groups">
+            <label for="groupsid">Choix du nombre total de groupes : </label>
+            <input type="number" id="groupsid" min="1" [(ngModel)]="nbGrps" placeholder="Nombre de groupes">
+        </div>
+        <div class="radio last-group">
+            <p>Configuration du dernier groupe : </p>
+            <input type="radio" id="lastmin" name="last" [(ngModel)]="lastGrp" value="LAST_MIN">
+            <label for="lastmin">LAST_MIN</label>
+            <input type="radio" id="lastmax" name="last" [(ngModel)]="lastGrp" value="LAST_MAX">
+            <label for="lastmax">LAST_MAX</label>
+        </div>
+        <a [routerLink]="['/overview']" routerLinkActive="active" ><button class="btn" (click)="createConfig()" [disabled]="! nbUsers || !nbGrps || !lastGrp">Valider</button></a>
+    </div>
+</div>

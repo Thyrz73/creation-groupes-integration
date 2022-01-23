@@ -1,0 +1,23 @@
+<div class="overview">
+    <div class="dashboard">
+        <p>Administrateur</p>
+        <div class="buttons">
+            <a [routerLink]="['/config']" routerLinkActive="active" ><div class="btn">Configuration des groupes</div></a>
+            <a [routerLink]="['/overview']" routerLinkActive="active" ><div class="btn">Liste des groupes</div></a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="no-group" id="no-group">Aucun groupe n'a encore été créé par les utilisateurs.</div>
+        <div class="infos">
+            <div class="box" *ngFor="let group of list; let i = index">
+                <h1>Groupe {{i+1}}</h1>
+                <div class="list">
+                    <div class="users" *ngFor="let users of group">
+                        <p>{{users}}</p>
+                    </div>
+                </div>
+                <!--a [routerLink]="['/overview']" routerLinkActive="active" (click)="deleteGroup(i+1)" ><div class="btn">Supprimer le groupe</div></a-->
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,46 @@
+<div class="random-grp">
+    <div class="dashboard">
+        <p>Utilisateurs</p>
+        <div class="buttons">
+            <a [routerLink]="['/my-group']" routerLinkActive="active" >
+                <div class="btn">Mon groupe</div>
+            </a>
+            <a [routerLink]="['/create-group']" routerLinkActive="active" >
+                <div class="btn" id="btn-create">Créer un groupe</div>
+            </a>
+            <a [routerLink]="['/list-users']" routerLinkActive="active" >
+                <div class="btn">Utilisateurs sans groupe</div>
+            </a>
+            <a>
+                <div class="btn" id="btn-random" (click)="randomGroup()">Intégrer un groupe aléatoire</div>
+            </a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="group-name" id="group-name">Vous avez été intégré dans un groupe aléatoire.<br> Vous pouvez voire votre groupe dans 'Mon groupe'. </div>
+        <div class="already-group" id="already-group">Vous êtes déjà dans un groupe, <br> vous ne pouvez pas en intégrer un autre.</div>
+        <div class="unexistant-group" id="unexistant-group">Il n'y a pas encore de groupe existant, <br> vous pouvez créer un groupe ou attendre qu'on vous invite <br> ou qu'au moins un groupe se créé.</div>
+        <div class="invitation" id="invite-msg">
+            <h1>Vous avez été invité à rejoindre le groupe </h1>
+            <p>Acceptez-vous l'invitation ?</p>
+            <div class="buttons">
+                <div (click)="inviteRef()" class="btn no">Refuser</div>
+                <div (click)="inviteAcc()" class="btn yes">Accepter</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="login" id="inv-login">
+    <div class="box">
+        <h1>Connexion</h1>
+        <form>
+            <div class="input">
+                <input type="text" placeholder="Username" name="username" [(ngModel)]="currentUser" required>
+            </div>
+            <div class="error" id="error">Nombre max d'utilisateurs atteint.</div>
+            <div class="btn">
+                <input type="submit" value="Login" (click)="loginInvUser()">
+            </div>
+        </form>
+    </div>
+</div>
