@@ -19,5 +19,13 @@
     <div class="container">
         <div class="group-name" id="group-name">Vous avez été intégré dans un groupe aléatoire.<br> Vous pouvez voire votre groupe dans 'Mon groupe'. </div>
         <div class="already-group" id="already-group">Vous êtes déjà dans un groupe, <br> vous ne pouvez pas en intégrer un autre.</div>
+        <div class="invitation" id="invite-msg">
+            <h1>Vous avez été invité à rejoindre le groupe </h1>
+            <p>Acceptez-vous l'invitation ?</p>
+            <div class="buttons">
+                <div (click)="inviteRef()" class="btn no">Refuser</div>
+                <div (click)="inviteAcc()" class="btn yes">Accepter</div>
+            </div>
+        </div>
     </div>
 </div>

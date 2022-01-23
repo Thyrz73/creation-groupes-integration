@@ -11,6 +11,9 @@ export class ListUsersComponent implements OnInit {
   random='';
   groupName: string = '';
   currentUser = '';
+  userInGroup: Boolean = true;
+  maxGroup: Boolean = true;
+
 
   constructor(public databaseService: DatabaseService, public sharedService: SharedService) { }
 
@@ -18,6 +21,40 @@ export class ListUsersComponent implements OnInit {
     this.showUserWithoutGroup();
     this.disableRandom();
     this.currentUser = this.sharedService.getCurrentUsername();
+    this.disableCreate();
+  }
+
+  async checkIfUserInGroup(){
+    this.sharedService.setCreateClicked();
+    this.disableCreate();
+    await this.databaseService.getGroupName(this.currentUser).then((res) => {
+      if (parseInt(res!) !== 0){
+        this.userInGroup = true;
+        this.maxGroup = false;
+      }
+      else{
+        this.userInGroup = false;
+      }
+    });
+  }
+
+
+  async checkMaxGrp(){
+    this.databaseService.groupIsMax().then((res) => {
+      if(res){
+        this.maxGroup = true;
+        this.userInGroup = false;
+      }
+      else{
+        this.maxGroup = false;
+      }
+    })
+  }
+  disableCreate(){
+    if (this.sharedService.getCreateClicked()){
+      document.getElementById("btn-create")!.style.pointerEvents = "none";
+      document.getElementById("btn-create")!.style.backgroundColor = "gray";
+    }
   }
 
   async showUserWithoutGroup(){
@@ -48,15 +85,15 @@ export class ListUsersComponent implements OnInit {
     this.disableRandom();
     await this.databaseService.getGroupName(this.currentUser).then((res) => {
       this.groupName = res!;
-    });
-    console.log("GROUPE CHANGE = ",parseInt(this.groupName));
-    parseInt(this.groupName) !== 0 ? 
+    })
+    this.groupName !== '0' ? 
                           document.getElementById("already-group")!.style.display = "inline"
                           :
-                          await this.databaseService.getIncompleteGroups().then((res) => {
+                          await this.databaseService.getIncompleteGroups().then().then((res) => {
                             this.random = res[Math.floor(Math.random()*res.length)].toString();
                             document.getElementById("group-name")!.style.display = "inline";
                             this.databaseService.putInRandomGroup(this.currentUser, this.random);
+                            this.sharedService.setRandomClicked();
                             return res;
                           });
   }
@@ -64,8 +101,8 @@ export class ListUsersComponent implements OnInit {
   disableRandom(){
     // console.log(this.sharedService.getRandomClicked());
     if (this.sharedService.getRandomClicked()){
-      document.getElementById("btn-random")?.setAttribute("style", "pointer-events:none");
-      document.getElementById("btn-random")?.setAttribute("style", "background-color:gray");
+      document.getElementById("btn-random")!.style.pointerEvents = "none";
+      document.getElementById("btn-random")!.style.backgroundColor = "gray";
     }
   }
 

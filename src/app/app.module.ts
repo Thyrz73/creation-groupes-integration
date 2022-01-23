@@ -15,7 +15,6 @@ import { FormsModule } from '@angular/forms'
 
 import { DatabaseService } from './services/database.service';
 import { OverviewComponent } from './components/admin/overview/overview.component';
-import { CreateGrpComponent } from './components/users/create-grp/create-grp.component';
 import { DashboardComponent } from './components/users/dashboard/dashboard.component';
 import { MyGroupComponent } from './components/users/my-group/my-group.component';
 import { HomeComponent } from './components/home/home.component';
@@ -23,6 +22,8 @@ import { RandomGroupComponent } from './components/users/random-group/random-gro
 import { UserLoginComponent } from './components/users/user-login/user-login.component';
 import { ListUsersComponent } from './components/users/list-users/list-users.component';
 import { SharedService } from './services/shared.service';
+import { CreateGrpComponent } from './components/users/create-grp/create-grp.component';
+
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
@@ -33,7 +34,8 @@ const appRoutes: Routes = [
   {path: 'dashboard-user', component: DashboardComponent},
   {path: 'my-group', component: MyGroupComponent},
   {path: 'random-group', component: RandomGroupComponent},
-  {path: 'list-users', component: ListUsersComponent}
+  {path: 'list-users', component: ListUsersComponent},
+  {path: 'create-group', component: CreateGrpComponent}
 ]
 
 @NgModule({
@@ -48,7 +50,7 @@ const appRoutes: Routes = [
     HomeComponent,
     RandomGroupComponent,
     UserLoginComponent,
-    ListUsersComponent
+    ListUsersComponent,
   ],
   imports: [
     BrowserModule,

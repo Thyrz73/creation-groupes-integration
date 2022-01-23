@@ -9,3 +9,60 @@
   font-weight: bold;
   color: gray;
 }
+
+.invitation {
+  display: none;
+  position: absolute;
+  top: 25%;
+  left: 40%;
+  height: 200px;
+  width: 500px;
+  padding: 50px;
+  background-color: rgb(190, 235, 243);
+  border-radius: 10px;
+  box-shadow: 10px 5px 5px rgba(0, 0, 0, 0.09);
+  text-align: center;
+}
+
+.invitation h1 {
+  margin-bottom: 30px;
+}
+
+.invitation p {
+  font-size: 22px;
+}
+
+.invitation .buttons {
+  display: flex;
+  margin-top: 50px;
+  margin-left: 110px;
+}
+
+.invitation .buttons .btn {
+  font-size: 20px;
+  font-weight: bold;
+  width: 100px;
+  padding: 5px;
+  border-radius: 20px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.09);
+  cursor: pointer;
+}
+
+.invitation .buttons .btn.no {
+  margin-right: 50px;
+  background-color: rgb(255, 55, 55);
+}
+
+.invitation .buttons .btn.no:hover {
+  background-color: rgb(148, 0, 0);
+  color: white;
+}
+
+.invitation .buttons .btn.yes {
+  background-color: rgb(81, 226, 81);
+}
+
+.invitation .buttons .btn.yes:hover {
+  background-color: rgb(0, 146, 0);
+  color: white;
+}

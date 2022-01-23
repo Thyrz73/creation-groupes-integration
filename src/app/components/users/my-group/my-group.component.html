@@ -6,7 +6,7 @@
                 <div class="btn">Mon groupe</div>
             </a>
             <a [routerLink]="['/create-group']" routerLinkActive="active" >
-                <div class="btn">Créer un groupe</div>
+                <div class="btn" id="btn-create">Créer un groupe</div>
             </a>
             <a [routerLink]="['/list-users']" routerLinkActive="active">
                 <div class="btn">Utilisateurs sans groupe</div>
@@ -24,9 +24,7 @@
                     <p>{{user}}</p>
                 </div>
             </div>
-            <a [routerLink]="['/dashboard-user']" routerLinkActive="active" >
-                <div class="btn" (click)="quitGroup()">Quitter le groupe</div>
-            </a>
+            <a [routerLink]="['/my-group']" routerLinkActive="active" ><div class="btn" (click)="quitGroup">Quitter le groupe</div></a>
         </div>
         <div class="no-group" *ngIf="noGroup">Vous ne faîtes actuellement parti d'aucun groupe.</div>
     </div>

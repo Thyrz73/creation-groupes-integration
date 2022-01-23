@@ -20,6 +20,7 @@ export class SharedService {
 
   setRandomClicked(){
     this.randomClicked = true;
+    this.createClicked = true;
   }
   getRandomClicked(){
     return this.randomClicked;
@@ -28,6 +29,7 @@ export class SharedService {
   setQuitCliked(){
     this.quitClicked = true;
     this.randomClicked = false;
+    this.createClicked = false;
   }
   getQuitClicked(){
     return this.randomClicked;
@@ -38,6 +40,6 @@ export class SharedService {
     this.randomClicked = true;
   }
   getCreateClicked(){
-    return this.randomClicked;
+    return this.createClicked;
   }
 }
