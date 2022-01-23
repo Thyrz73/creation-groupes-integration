@@ -1,7 +1,7 @@
 pipeline {
   agent any
   environment {
-        PATH = "$PATH:/Documents/apache-maven-3.8.4/apache-maven/src/bin"
+        PATH = "E:/Documents/apache-maven-3.8.4/apache-maven/src/bin"
     }
   tools {nodejs "nodejs"}
   
