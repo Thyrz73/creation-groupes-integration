@@ -1,0 +1,47 @@
+.config-grpes .container {
+  position: absolute;
+  top: 20%;
+  left: 35%;
+  align-items: center;
+  justify-content: center;
+}
+
+.config-grpes .container .input,
+.radio {
+  margin-bottom: 30px;
+}
+
+.config-grpes .container .input input {
+  height: 30px;
+  width: 200px;
+}
+
+.config-grpes .container .radio {
+  display: flex;
+}
+
+.config-grpes .container .radio p {
+  margin-right: 30px;
+  margin-top: 0;
+}
+
+.config-grpes .container .radio input {
+  margin: 3px 3px 0px 5px;
+}
+
+.config-grpes .container .radio label {
+  margin-right: 20px;
+}
+
+.config-grpes .container .btn {
+  height: 30px;
+  width: 100px;
+  margin-left: 170px;
+  color: white;
+  background-color: green;
+  cursor: pointer;
+}
+
+.config-grpes .container .btn:disabled {
+  background-color: rgb(49, 59, 49);
+}

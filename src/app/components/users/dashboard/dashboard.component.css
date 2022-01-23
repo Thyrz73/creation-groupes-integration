@@ -1,0 +1,11 @@
+.random-grp .group-name,
+.already-group {
+  display: none;
+  position: absolute;
+  top: 35%;
+  left: 42%;
+  font-size: 30px;
+  text-align: center;
+  font-weight: bold;
+  color: gray;
+}

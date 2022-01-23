@@ -1,0 +1,29 @@
+import { Component, OnInit } from '@angular/core';
+import { NgModel } from '@angular/forms';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
+})
+export class LoginComponent implements OnInit {
+  username!: string;
+
+  constructor(public router: Router) { }
+
+  ngOnInit(): void {
+  }
+
+  loginAdmin(username: any): String{
+    if(username === "admin"){
+      this.router.navigate(['/config']);
+      return 'login ok';
+    }
+    else{
+      document.getElementById("error")!.style.display = "inline";
+      return 'login error';
+    }
+  }
+
+}
