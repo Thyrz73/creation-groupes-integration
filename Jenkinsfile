@@ -1,5 +1,8 @@
 pipeline {
   agent any
+  environment {
+        PATH = "$PATH:/Documents/apache-maven-3.8.4/apache-maven/src/bin"
+    }
   tools {nodejs "nodejs"}
   
    stages {
@@ -9,8 +12,9 @@ pipeline {
     
      stage('Sonar scan'){
        steps{
+          sh 'mvn clean package'
          withSonarQubeEnv(installationName:'creationGroupe'){
-           sh './mvnw clean org.sonarsource.scanner.maven: sonar-maven-plugin: 3.9.0.2155: sonar'
+           sh "mvn sonar:sonar"
          }
        }
      }
