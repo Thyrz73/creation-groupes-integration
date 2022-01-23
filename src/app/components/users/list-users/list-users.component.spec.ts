@@ -27,4 +27,27 @@ describe('ListUsersComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should call function showUserWithoutGroup on init', () => {
+    const spy = spyOn(component, 'showUserWithoutGroup');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should call function disableRandom on init', () => {
+    const spy = spyOn(component, 'disableRandom');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should call function disableCreate on init', () => {
+    const spy = spyOn(component, 'disableCreate');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('current username should not be empty', () => {
+    component.ngOnInit();
+    expect(component.currentUser).not.toMatch('');
+  })
 });

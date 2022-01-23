@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DatabaseService } from 'src/app/services/database.service';
 import { SharedService } from 'src/app/services/shared.service';
 
@@ -14,20 +15,29 @@ export class DashboardComponent implements OnInit {
   currentUser: string = '';
   userInGroup: Boolean = true;
   maxGroup: Boolean = true;
+  id: string = '~';
 
 
-  constructor(public databaseService: DatabaseService, public sharedService: SharedService) { }
+  constructor(private router: Router, private route: ActivatedRoute, public databaseService: DatabaseService, public sharedService: SharedService) { }
 
   ngOnInit(): void {
+    var tester = 1;
+    this.route.params.subscribe(params => {
+      this.id = params['id'];
+    });
+
+    if(this.id !== '~' && tester === 1){
+      //document.getElementById("inv-login")?.setAttribute("style","display:inline-block");
+      tester = 0;
+    }
     this.currentUser = this.sharedService.getCurrentUsername();
-    this.disableRandom();
     document.getElementById("list-container")?.remove();
     this.databaseService.invitedToGrp(this.currentUser).then((resp)=> {
-      if(resp !== '/'){
+      if(resp !== '~' && tester === 1){
         document.getElementById("invite-msg")?.setAttribute("style","display:inline-block");
       }
-      console.log(resp);
     });
+    this.disableRandom();
     this.disableCreate();
   }
 
@@ -62,6 +72,9 @@ export class DashboardComponent implements OnInit {
       document.getElementById("btn-create")!.style.pointerEvents = "none";
       document.getElementById("btn-create")!.style.backgroundColor = "gray";
     }
+    else{
+      document.getElementById("btn-create")!.setAttribute("style","background-color: rgb(0, 191, 255);");
+    }
   }
 
 
@@ -69,19 +82,24 @@ export class DashboardComponent implements OnInit {
     const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
     this.databaseService.joinInv(this.currentUser).then(async (respo)=>{
       if (respo===0){
-        console.log("joined !!!");
+        alert("Vous avez bien intégrer le groupe.");
         await delay(1300);
         document.getElementById("invite-msg")?.setAttribute("style","display:none");
+        this.router.navigateByUrl("/my-group");
       }else if (respo===1){
-        console.log("no space in grp :( ");
+        alert("Il n'y a plus de place dans le groupe :(.");
         await delay(1300);
         document.getElementById("invite-msg")?.setAttribute("style","display:none");
+        this.databaseService.resetInv(this.currentUser);
       }else if (respo === 2){
-        console.log("invitation invalide");
+        alert("Lien d'invitation invalide :(.");
         await delay(1300);
         document.getElementById("invite-msg")?.setAttribute("style","display:none");
+        this.databaseService.resetInv(this.currentUser);
       }else{
-        console.log("you already in grp ( ._.)");
+        alert("Vous êtes déjà dans un groupe. Vous ne pouvez plus accepter l'invitation.");
+        this.databaseService.resetInv(this.currentUser);
+        this.router.navigateByUrl("/my-group");
       }
     })
   }
@@ -98,14 +116,23 @@ export class DashboardComponent implements OnInit {
     await this.databaseService.getGroupName(this.currentUser).then((res) => {
       this.groupName = res!;
     })
-    this.groupName !== '0' ? 
+    parseInt(this.groupName) !== 0 ? 
                           document.getElementById("already-group")!.style.display = "inline"
                           :
                           await this.databaseService.getIncompleteGroups().then((res) => {
-                            this.random = res[Math.floor(Math.random()*res.length)].toString();
-                            document.getElementById("group-name")!.style.display = "inline";
-                            this.databaseService.putInRandomGroup(this.currentUser, this.random);
-                            return res;
+                            if (res.length == 0){
+                              document.getElementById("unexistant-group")!.style.display = "inline";
+                              this.sharedService.setCreateClicked();
+                              this.disableCreate();
+                              return 0;
+                            }
+                            else{
+                              this.random = res[Math.floor(Math.random()*res.length)].toString();
+                              document.getElementById("group-name")!.style.display = "inline";
+                              document.getElementById("already-group")!.style.display = "none";
+                              this.databaseService.putInRandomGroup(this.currentUser, this.random);
+                              return res;
+                            }
                           });
   }
 
@@ -115,6 +142,12 @@ export class DashboardComponent implements OnInit {
       document.getElementById("btn-random")!.style.pointerEvents = "none";
       document.getElementById("btn-random")!.style.backgroundColor = "gray";
     }
+  }
+
+  loginInvUser(){
+    document.getElementById("invite-msg")?.setAttribute("style","display:inline-block");
+    this.databaseService.updateInv(this.id, this.currentUser);
+    document.getElementById("inv-login")?.setAttribute("style","display:none");
   }
 
 }

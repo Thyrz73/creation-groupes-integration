@@ -31,6 +31,7 @@ const appRoutes: Routes = [
   {path: 'user-login', component: UserLoginComponent},
   {path: 'config', component: ConfigGrpesComponent},
   {path: 'overview', component: OverviewComponent},
+  {path: 'dashboard-user/:id', component: DashboardComponent},
   {path: 'dashboard-user', component: DashboardComponent},
   {path: 'my-group', component: MyGroupComponent},
   {path: 'random-group', component: RandomGroupComponent},

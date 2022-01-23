@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { AngularFireModule } from '@angular/fire/compat';
 import { DatabaseService } from 'src/app/services/database.service';
 
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('MyGroupComponent', () => {
   let component: MyGroupComponent;
@@ -13,7 +14,7 @@ describe('MyGroupComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ MyGroupComponent ],
-      imports: [AngularFireModule.initializeApp(environment.firebaseConfig)],
+      imports: [AngularFireModule.initializeApp(environment.firebaseConfig), RouterTestingModule],
       providers: [ DatabaseService ]
     })
     .compileComponents();
@@ -33,5 +34,17 @@ describe('MyGroupComponent', () => {
     const spy = spyOn(component, 'groupInfos');
     component.ngOnInit();
     expect(spy).toHaveBeenCalled();
-  })
+  });
+
+  it('should call function disableRandom on init', () => {
+    const spy = spyOn(component, 'disableRandom');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should call function disableCreate on init', () => {
+    const spy = spyOn(component, 'disableCreate');
+    component.ngOnInit();
+    expect(spy).toHaveBeenCalled();
+  });
 });

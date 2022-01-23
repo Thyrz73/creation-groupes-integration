@@ -18,7 +18,7 @@ export class OverviewComponent implements OnInit {
 
   async getCreated(){
     let data = await this.databaseServices.createdGrp();
-    if (data == 0){
+    if (data == 0 || data == -1){
       document.getElementById("no-group")!.style.display = "inline";
     }
     else{

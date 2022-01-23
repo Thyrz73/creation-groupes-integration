@@ -50,11 +50,11 @@ describe('LoginComponent', () => {
     expect(component.loginAdmin('admi')).toEqual('login error');
   })
 
-  it('should display error on screen when login incorrect', () => {
-    // TODO
-  });
+  // it('should display error on screen when login incorrect', () => {
+  //   // TODO
+  // });
 
-  it('should route to overview if login successfully'), () => {
-    // TODO
-  }
+  // it('should route to overview if login successfully'), () => {
+  //   // TODO
+  // }
 });

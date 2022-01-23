@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from 'src/app/services/database.service';
 import { UserLoginComponent } from '../user-login/user-login.component';
 import { SharedService } from 'src/app/services/shared.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-group',
@@ -18,14 +19,15 @@ export class MyGroupComponent implements OnInit {
   maxGroup: Boolean = true;
 
   
-  constructor(public databaseService: DatabaseService, public sharedService: SharedService) { }
+  constructor(private router: Router,
+    public databaseService: DatabaseService, public sharedService: SharedService) { }
 
   ngOnInit(): void {
     this.currentUser = this.sharedService.getCurrentUsername();
-    this.groupInfos(this.currentUser);
     this.disableRandom();
-    document.getElementById("list-container")?.remove();
     this.disableCreate();
+    document.getElementById("list-container")?.remove();
+    this.groupInfos(this.currentUser);
   }
 
   async checkIfUserInGroup(){
@@ -81,6 +83,7 @@ export class MyGroupComponent implements OnInit {
   quitGroup(){
     this.databaseService.removeFromGroup(this.currentUser, this.groupName);
     this.sharedService.setQuitCliked();
+    alert("Vous avez bien quitté le groupe.");
   }
 
   async randomGroup(){
@@ -89,15 +92,21 @@ export class MyGroupComponent implements OnInit {
     await this.databaseService.getGroupName(this.currentUser).then((res) => {
       this.groupName = res!;
     })
-    this.groupName !== '0' ? 
+    parseInt(this.groupName) !== 0 ? 
                           document.getElementById("already-group")!.style.display = "inline"
                           :
-                          await this.databaseService.getIncompleteGroups().then().then((res) => {
-                            this.random = res[Math.floor(Math.random()*res.length)].toString();
-                            document.getElementById("group-name")!.style.display = "inline";
-                            this.databaseService.putInRandomGroup(this.currentUser, this.random);
-                            this.sharedService.setRandomClicked();
-                            return res;
+                          await this.databaseService.getIncompleteGroups().then((res) => {
+                            if (res.length == 0){
+                              document.getElementById("unexistant-group")!.style.display = "inline";
+                              return 0;
+                            }
+                            else{
+                              this.random = res[Math.floor(Math.random()*res.length)].toString();
+                              document.getElementById("group-name")!.style.display = "inline";
+                              document.getElementById("already-group")!.style.display = "none";
+                              this.databaseService.putInRandomGroup(this.currentUser, this.random);
+                              return res;
+                            }
                           });
   }
 

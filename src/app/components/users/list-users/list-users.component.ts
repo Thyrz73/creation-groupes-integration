@@ -86,15 +86,22 @@ export class ListUsersComponent implements OnInit {
     await this.databaseService.getGroupName(this.currentUser).then((res) => {
       this.groupName = res!;
     })
-    this.groupName !== '0' ? 
+    parseInt(this.groupName) !== 0 ? 
                           document.getElementById("already-group")!.style.display = "inline"
                           :
-                          await this.databaseService.getIncompleteGroups().then().then((res) => {
-                            this.random = res[Math.floor(Math.random()*res.length)].toString();
-                            document.getElementById("group-name")!.style.display = "inline";
-                            this.databaseService.putInRandomGroup(this.currentUser, this.random);
-                            this.sharedService.setRandomClicked();
-                            return res;
+                          await this.databaseService.getIncompleteGroups().then((res) => {
+                            if (res.length == 0){
+                              document.getElementById("unexistant-group")!.style.display = "inline";
+                              this.sharedService.setCreateClicked();
+                              return 0;
+                            }
+                            else{
+                              this.random = res[Math.floor(Math.random()*res.length)].toString();
+                              document.getElementById("group-name")!.style.display = "inline";
+                              document.getElementById("already-group")!.style.display = "none";
+                              this.databaseService.putInRandomGroup(this.currentUser, this.random);
+                              return res;
+                            }
                           });
   }
 

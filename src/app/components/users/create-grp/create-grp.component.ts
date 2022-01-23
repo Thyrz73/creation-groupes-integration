@@ -15,7 +15,7 @@ export class CreateGrpComponent implements OnInit {
   users: String[] = [];
   noGroup: Boolean = true;
   currentUser = '';
-  code = '/';
+  code = '~';
   userInGroup: Boolean = true;
   maxGroup: Boolean = true;
 
@@ -26,6 +26,7 @@ export class CreateGrpComponent implements OnInit {
     this.disableRandom();
     this.disableCreate();
     this.checkIfUserInGroup();
+    this.checkMaxGrp();
     document.getElementById("list-container")?.remove();
     this.code = Math.random().toString(36).substring(2,10);
   }
@@ -36,8 +37,11 @@ export class CreateGrpComponent implements OnInit {
     
     if(await this.databaseService.GroupCreation(this.inputUserName, this.currentUser, this.code)){
       document.getElementById("created-text")?.setAttribute("style","display:inline-block");
+      document.getElementById("btn-create-grp")?.setAttribute("style","margin-top: 50px;");
+      alert("Votre groupe ne sera définitivement créé que si un de vos invités aura accepté l'invitation.");
     }else{
       document.getElementById("create-failed-text")?.setAttribute("style","display:inline-block");
+      document.getElementById("btn-create-grp")?.setAttribute("style","margin-top: 50px;");
     }
 
   }
@@ -48,12 +52,16 @@ export class CreateGrpComponent implements OnInit {
     const cond = this.databaseService.inviteUser(this.inputUserName, this.code).then(async (resp)=>{
       if(resp){
         document.getElementById("inv-text")?.setAttribute("style","display:inline-block");
+        document.getElementById("btn-create-grp")?.setAttribute("style","margin-top: 50px;");
         await delay(1300);
+        document.getElementById("btn-create-grp")?.setAttribute("style","margin-top: 100px;");
         document.getElementById("inv-text")?.setAttribute("style","display:none");
       }else{
         document.getElementById("inv-failed-text")?.setAttribute("style","display:inline-block");
+        document.getElementById("btn-create-grp")?.setAttribute("style","margin-top: 50px;");
         await delay(1300);
         document.getElementById("inv-failed-text")?.setAttribute("style","display:none");
+        document.getElementById("btn-create-grp")?.setAttribute("style","margin-top: 100px;");
 
       }
     }); 
@@ -70,15 +78,22 @@ export class CreateGrpComponent implements OnInit {
     await this.databaseService.getGroupName(this.currentUser).then((res) => {
       this.groupName = res!;
     })
-    this.groupName !== '0' ? 
+    parseInt(this.groupName) !== 0 ? 
                           document.getElementById("already-group")!.style.display = "inline"
                           :
-                          await this.databaseService.getIncompleteGroups().then().then((res) => {
-                            this.random = res[Math.floor(Math.random()*res.length)].toString();
-                            document.getElementById("group-name")!.style.display = "inline";
-                            this.databaseService.putInRandomGroup(this.currentUser, this.random);
-                            this.sharedService.setRandomClicked();
-                            return res;
+                          await this.databaseService.getIncompleteGroups().then((res) => {
+                            if (res.length == 0){
+                              document.getElementById("unexistant-group")!.style.display = "inline";
+                              this.sharedService.setCreateClicked();
+                              return 0;
+                            }
+                            else{
+                              this.random = res[Math.floor(Math.random()*res.length)].toString();
+                              document.getElementById("group-name")!.style.display = "inline";
+                              document.getElementById("already-group")!.style.display = "none";
+                              this.databaseService.putInRandomGroup(this.currentUser, this.random);
+                              return res;
+                            }
                           });
   }
 

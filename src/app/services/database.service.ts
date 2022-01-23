@@ -37,7 +37,7 @@ export class DatabaseService {
     }
   }
 
-  // Read nb groups created from db
+  // Get nb groups created
   async createdGrp(){
     const docRef = doc(this.db, "Groups", "groupsCreated");
     const docSnap = await getDoc(docRef);
@@ -67,7 +67,6 @@ export class DatabaseService {
     (await snapShot).forEach((doc)=>{
       list.push(doc.data()["Name"]);
     });
-    console.log(list);
     return list;
   }
 
@@ -86,18 +85,18 @@ export class DatabaseService {
   }
 
   // Put a user in random group
-  async putInRandomGroup(username: string, random: String){
+  async putInRandomGroup(username: string, random: string){
     let group = "Group"+random;
     await updateDoc(doc(this.db, 'Groups', group), {
       Users: arrayUnion(username),
       FreePlace: increment(-1)
     });
     await updateDoc(doc(this.db, "Users", username), {
-      Group: random
+      Group: parseInt(random)
     });
   }
 
-  // Get group name
+  // Get group name of user
   async getGroupName(username: String){
     let group;
     const userRef = collection(this.db, "Users");
@@ -110,8 +109,8 @@ export class DatabaseService {
     return group;
   }
 
-  // Get users of group
-  async getUsers(groupId: String){
+  // Get list users of group
+  async getUsers(groupId: string){
     let list: String[] = [], user;
     const userRef = collection(this.db, "Groups");
     const q = query(userRef, where("Id", "==", groupId));
@@ -140,8 +139,27 @@ export class DatabaseService {
     await updateDoc(doc(this.db, 'Users', username), {
       Group: 0
     });
-    await updateDoc(doc(this.db, "Groups", id), {
+
+    let list: String[] = [], user;
+    const userRef = collection(this.db, "Groups");
+    const q = query(userRef, where("Id", "==", id));
+    const snapShot = getDocs(q);
+    
+    (await snapShot).forEach((doc)=>{
+      user = doc.data()["Users"];
+      list.push(user);
+    });
+
+    let finalList: String[] = [], j=0;
+    for(let i=0; i<list[0].length; i++){
+      if(list[0][i]!==username){
+        finalList[j] = list[0][i];
+        j++;
+      }
+    }
+    await updateDoc(doc(this.db, 'Groups', "Group"+id), {
       FreePlace: increment(1),
+      Users: finalList
     });
   }
   
@@ -149,16 +167,16 @@ export class DatabaseService {
     
     const refGrpCurrent = await getDoc(doc(this.db, "Configuration", "configID"));
     const grpCurrent = refGrpCurrent.data()!["CurrentGroups"];
-
     const maxGroups = await getDoc(doc(this.db, "Configuration", "configID"));
     const maxNumber = maxGroups.data()!["Groups"];
-    
-
-    
+    const grp = await getDocs(collection(this.db, "Groups"));
     const freeplace = maxGroups.data()!["UsersPerGroup"] - 1;
     
-    let id = grpCurrent+1;
-    console.log("final id = "+id+"\n");
+    let id = 0;
+    grp.forEach((data) => {
+      id++;      
+    });
+    id++;
 
     if(grpCurrent >= maxNumber){
       return false;
@@ -166,41 +184,34 @@ export class DatabaseService {
       let list: String [] = [];
       list.push(username);
       
-      await setDoc(doc(this.db, 'Groups', 'Group'+id), {
+      await setDoc(doc(this.db, 'GroupsOnHold', 'Group'+id), {
         FreePlace:freeplace,
         Id: id,
         Users :list,
-        invite : code
+        invite : code,
+        Creator: username
       });
 
       this.inviteUser(inviteName,code);
-
-      await updateDoc(doc(this.db, "Users", username), {
-        Group: id
-      });
-      await updateDoc(doc(this.db, "Configuration", "configID"), {
-        CurrentGroups: increment(+1)
-      });
-
 
       return true;
     }
   }
 
   async inviteUser(inviteName:string, code:string){
-    console.log("invité : "+inviteName+"\ncode d'invitation : "+code);
     const userRef = collection(this.db, "Users");
     const q = query(userRef, where("Name", "==", inviteName));
     const snapShot = getDocs(q);
  
-      if(!(await snapShot).empty){
-        await updateDoc(doc(this.db, 'Users', inviteName), {
-          invite: code
-        });
-        return true;
-      }else{
-        return false;
-      }
+    if(!(await snapShot).empty){
+      await updateDoc(doc(this.db, 'Users', inviteName), {
+        invite: code
+      });
+      return true;
+    }
+    else{
+      return false;
+    }
   }
 
   // Register username if login for first time
@@ -218,7 +229,7 @@ export class DatabaseService {
         await setDoc(doc(this.db, 'Users', username), {
           Group: 0,
           Name: username,
-          invite:"/"
+          invite:"~"
         });
         await updateDoc(doc(this.db, "Configuration", "configID"), {
           NbCurrentUsers: increment(1)
@@ -249,9 +260,7 @@ export class DatabaseService {
     (await snapShot).forEach((doc)=>{
       res = doc.data()["invite"];
     })
-    console.log("èèèèèèèèèèèè  "+res);
     return res;
-
   }
 
   async joinInv(user:string){
@@ -261,10 +270,9 @@ export class DatabaseService {
     await this.invitedToGrp(user).then((res)=>{
       code = res!;
     })
-    const grpRef = collection(this.db, "Groups");
+    const grpRef = collection(this.db, "GroupsOnHold");
     const q = query(grpRef, where("invite", "==", code));
     const snapShot = getDocs(q);
-    console.log('...................'+code);
 
     (await snapShot).forEach((doc)=>{
       groupId=doc.data()["Id"];
@@ -291,8 +299,31 @@ export class DatabaseService {
       return 3;
     }
 
-    
-    this.changeGrp(groupId,user,users);
+    let listUsers: string[] = [], creator ='';
+    const refGrpCurrent = await getDoc(doc(this.db, "Configuration", "configID"));
+    const grpCurrent = refGrpCurrent.data()!["CurrentGroups"] + 1;
+
+    await updateDoc(doc(this.db, "Configuration", "configID"),{
+      CurrentGroups: increment(1)
+    });
+    (await snapShot).forEach((doc) => {
+      listUsers = doc.data()["Users"];
+      creator = doc.data()["Creator"];
+    });
+
+    await setDoc(doc(this.db, "Groups", "Group"+grpCurrent),{
+      FreePlace: freeplace,
+      Id: grpCurrent,
+      Users: listUsers,
+      invite: code
+    });
+    await updateDoc(doc(this.db, "Users", creator),{
+      Group: grpCurrent
+    })
+    await updateDoc(doc(this.db, "GroupsOnHold", "Group"+groupId),{
+      FreePlace: increment(-1)
+    });
+    this.changeGrp(grpCurrent, user, listUsers);
     return 0;
   }
 
@@ -306,28 +337,43 @@ export class DatabaseService {
       Users:users
     });
     await updateDoc(doc(this.db, 'Users', user), {
-      invite: '/'
+      invite: '~'
     });
   }
 
   async resetInv(user:string){
     await updateDoc(doc(this.db, 'Users', user), {
-      invite: '/'
+      invite: '~'
     });
   }
 
-    // Check if we got to max nb of groups
-    async groupIsMax(){
-      const refGrpCurrent = await getDoc(doc(this.db, "Configuration", "configID"));
-      const grpCurrent = refGrpCurrent.data()!["CurrentGroups"];
-      const maxNumber = refGrpCurrent.data()!["Groups"];
-  
-      if (grpCurrent >= maxNumber){
-        return true;
-      }
-      else{
+  // Check if we got to max nb of groups
+  async groupIsMax(){
+    const refGrpCurrent = await getDoc(doc(this.db, "Configuration", "configID"));
+    const grpCurrent = refGrpCurrent.data()!["CurrentGroups"];
+    const maxNumber = refGrpCurrent.data()!["Groups"];
+
+    if (grpCurrent >= maxNumber){
+      return true;
+    }
+    else{
+      return false;
+    }
+  }
+
+    // Check if configuration empty
+    async checkConfig(){
+      const confRef = await (getDoc(doc(this.db, "Configuration", "configID")));
+      if ((await confRef).data() == undefined){
         return false;
       }
+      return true;
+    }
+
+    async updateInv(id:string, user:string){
+      await updateDoc(doc(this.db, 'Users', user), {
+        invite: id
+      });
     }
   
 }
