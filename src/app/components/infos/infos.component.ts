@@ -17,13 +17,13 @@ export class InfosComponent implements OnInit {
 
   nbGroups(){
     this.dataService.createdGrp().then((res) => {
-      document.getElementById("users")!.innerHTML = "Utilisateurs : "+res;
+      document.getElementById("users")!.innerHTML = "Groupes : "+res;
     })
   }
 
   nbUsers(){
     this.dataService.getNbUsers().then((res) => {
-      document.getElementById("groups")!.innerHTML = "Groupes : "+res;
+      document.getElementById("groups")!.innerHTML = "Utilisateurs : "+res;
     })
   }
 
