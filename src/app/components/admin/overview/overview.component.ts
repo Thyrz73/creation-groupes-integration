@@ -17,21 +17,22 @@ export class OverviewComponent implements OnInit {
   }
 
   async getCreated(){
-    let data = await this.databaseServices.createdGrp();
-    if (data == 0 || data == -1){
-      document.getElementById("no-group")!.style.display = "inline";
-    }
-    else{
-      this.databaseServices.getCreatedGroups();
-      await this.databaseServices.getCreatedGroups().then((res) => {
-        let j=0;
-        res.forEach((data) => {
-          this.list[j] = data;
-          j++;
+    await this.databaseServices.createdGrp().then((res) => {
+      if (parseInt(res!) === 0){
+        document.getElementById("no-group")!.style.display = "inline";
+      }
+      else{
+        this.databaseServices.getCreatedGroups();
+        this.databaseServices.getCreatedGroups().then((res) => {
+          let j=0;
+          res.forEach((data) => {
+            this.list[j] = data;
+            j++;
+          })
         })
-      })
-      this.nbGroup = this.list.length;
-    }
+        this.nbGroup = this.list.length;
+      }
+    });
   }
 
   deleteGroup(id: number){

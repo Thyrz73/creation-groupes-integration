@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from 'src/app/services/database.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-config-grpes',
@@ -12,14 +13,21 @@ export class ConfigGrpesComponent implements OnInit {
   nbGrps!: number;
   lastGrp!: string;
 
-  constructor(public databaseService: DatabaseService) { }
+  constructor(public databaseService: DatabaseService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
   createConfig(){
-    let usersPerGroup = Math.abs(this.nbUsers/this.nbGrps);
-    this.databaseService.newConfig(this.nbUsers, this.nbGrps, this.lastGrp, usersPerGroup);
+    if(this.nbGrps > this.nbUsers){
+      document.getElementById("too-much-users")?.setAttribute("style", "display:block");
+      document.querySelector('button')!.disabled = true;
+    }
+    else{
+      let usersPerGroup = Math.ceil(this.nbUsers/this.nbGrps);
+      this.databaseService.newConfig(this.nbUsers, this.nbGrps, this.lastGrp, usersPerGroup);
+      this.router.navigateByUrl('/overview');
+    }
   }
 
   readData(){

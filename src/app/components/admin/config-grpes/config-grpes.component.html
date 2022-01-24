@@ -22,6 +22,7 @@
             <input type="radio" id="lastmax" name="last" [(ngModel)]="lastGrp" value="LAST_MAX">
             <label for="lastmax">LAST_MAX</label>
         </div>
-        <a [routerLink]="['/overview']" routerLinkActive="active" ><button class="btn" (click)="createConfig()" [disabled]="! nbUsers || !nbGrps || !lastGrp">Valider</button></a>
+        <a><button class="btn" id="btn" (click)="createConfig()" [disabled]="! nbUsers || !nbGrps || !lastGrp">Valider</button></a>
+        <div class="too-much-users" id="too-much-users">Attention il y a plus d'utilisateurs que de groupes !</div>
     </div>
 </div>

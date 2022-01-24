@@ -45,3 +45,11 @@
 .config-grpes .container .btn:disabled {
   background-color: rgb(49, 59, 49);
 }
+
+.too-much-users {
+  display: none;
+  color: red;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
+}
