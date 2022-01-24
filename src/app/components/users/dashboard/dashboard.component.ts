@@ -28,34 +28,15 @@ export class DashboardComponent implements OnInit {
     });
     this.disableRandom();
     this.disableCreate();
+    this.checkRandom();
   }
 
-  async checkIfUserInGroup(){
-    this.sharedService.setCreateClicked();
-    this.disableCreate();
-    await this.databaseService.getGroupName(this.currentUser).then((res) => {
-      if (parseInt(res!) !== 0){
-        this.userInGroup = true;
-        this.maxGroup = false;
-      }
-      else{
-        this.userInGroup = false;
-      }
-    });
+  async checkRandom(){
+    if (this.sharedService.getTriggerRandom()){
+      this.randomGroup();
+    }
   }
 
-
-  async checkMaxGrp(){
-    this.databaseService.groupIsMax().then((res) => {
-      if(res){
-        this.maxGroup = true;
-        this.userInGroup = false;
-      }
-      else{
-        this.maxGroup = false;
-      }
-    })
-  }
   disableCreate(){
     if (this.sharedService.getCreateClicked()){
       document.getElementById("btn-create")!.style.pointerEvents = "none";
@@ -111,8 +92,6 @@ export class DashboardComponent implements OnInit {
                           await this.databaseService.getIncompleteGroups().then((res) => {
                             if (res.length == 0){
                               document.getElementById("unexistant-group")!.style.display = "inline";
-                              this.sharedService.setCreateClicked();
-                              this.disableCreate();
                               return 0;
                             }
                             else{
@@ -120,6 +99,8 @@ export class DashboardComponent implements OnInit {
                               document.getElementById("group-name")!.style.display = "inline";
                               document.getElementById("already-group")!.style.display = "none";
                               this.databaseService.putInRandomGroup(this.currentUser, this.random);
+                              this.sharedService.setCreateClicked();
+                              this.disableCreate();
                               return res;
                             }
                           });

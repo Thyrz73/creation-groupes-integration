@@ -5,14 +5,14 @@
             <a [routerLink]="['/my-group']" routerLinkActive="active" >
                 <div class="btn">Mon groupe</div>
             </a>
-            <a [routerLink]="['/create-group']" routerLinkActive="active" >
+            <a>
                 <div class="btn" id="btn-create">Créer un groupe</div>
             </a>
             <a [routerLink]="['/list-users']" routerLinkActive="active">
                 <div class="btn">Utilisateurs sans groupe</div>
             </a>
             <a [routerLink]="['/dashboard-user']" routerLinkActive="active">
-                <div class="btn" id="btn-random" (click)="randomGroup()">Intégrer un groupe aléatoire</div>
+                <div class="btn" id="btn-random" (click)="triggerRandom()">Intégrer un groupe aléatoire</div>
             </a>
         </div>
     </div>
@@ -25,10 +25,10 @@
                     <button (click)="sendInv()" style="width:30%; height:3em;cursor: pointer;">Inviter</button>
                 </div>
             </div>
-            <div class="create-txt" id="inv-text" style="height: 2em;">Utilisateur invité !</div>
-            <div class="create-txt" id="inv-failed-text">Utilisateur introuvable !</div>
-            <div class="create-txt" id="created-text" style="height: 2em;">Groupe créé avec succès !</div>
-            <div class="create-txt" id="create-failed-text">Nombre max de groupes atteint !</div>
+            <div class="create-txt green" id="inv-text" style="height: 2em;">Utilisateur invité !</div>
+            <div class="create-txt red" id="inv-failed-text">Utilisateur introuvable !</div>
+            <div class="create-txt green" id="created-text" style="height: 2em;">Groupe créé avec succès !</div>
+            <div class="create-txt red" id="create-failed-text">Nombre max de groupes atteint !</div>
             <a [routerLink]="['/my-group']" routerLinkActive="active" ><div class="btn" id="btn-create-grp" (click)="createGroup()">Créer le groupe</div></a>
         </div>
         <div class="cant-create">

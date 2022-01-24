@@ -32,16 +32,19 @@ export class CreateGrpComponent implements OnInit {
   }
 
   async createGroup(){
-    //console.log(this.inputUserName);
     (document.getElementById("input-grp-name")as HTMLInputElement).value="";
     
     if(await this.databaseService.GroupCreation(this.inputUserName, this.currentUser, this.code)){
       document.getElementById("created-text")?.setAttribute("style","display:inline-block");
       document.getElementById("btn-create-grp")?.setAttribute("style","margin-top: 50px;");
+      this.sharedService.setCreateClicked();
+      this.disableCreate();
       alert("Votre groupe ne sera définitivement créé que si un de vos invités aura accepté l'invitation.");
     }else{
       document.getElementById("create-failed-text")?.setAttribute("style","display:inline-block");
       document.getElementById("btn-create-grp")?.setAttribute("style","margin-top: 50px;");
+      this.sharedService.setCreateClicked();
+      this.disableCreate();
     }
 
   }
@@ -67,38 +70,11 @@ export class CreateGrpComponent implements OnInit {
     }); 
   }
 
-  quitGroup(){
-    this.databaseService.removeFromGroup(this.currentUser, this.groupName);
-    this.sharedService.setQuitCliked();
-  }
-
-  async randomGroup(){
-    this.sharedService.setRandomClicked();
-    this.disableRandom();
-    await this.databaseService.getGroupName(this.currentUser).then((res) => {
-      this.groupName = res!;
-    })
-    parseInt(this.groupName) !== 0 ? 
-                          document.getElementById("already-group")!.style.display = "inline"
-                          :
-                          await this.databaseService.getIncompleteGroups().then((res) => {
-                            if (res.length == 0){
-                              document.getElementById("unexistant-group")!.style.display = "inline";
-                              this.sharedService.setCreateClicked();
-                              return 0;
-                            }
-                            else{
-                              this.random = res[Math.floor(Math.random()*res.length)].toString();
-                              document.getElementById("group-name")!.style.display = "inline";
-                              document.getElementById("already-group")!.style.display = "none";
-                              this.databaseService.putInRandomGroup(this.currentUser, this.random);
-                              return res;
-                            }
-                          });
+  triggerRandom(){
+    this.sharedService.setTriggerRandom();
   }
 
   disableRandom(){
-    // console.log(this.sharedService.getRandomClicked());
     if (this.sharedService.getRandomClicked()){
       document.getElementById("btn-random")!.style.pointerEvents = "none";
       document.getElementById("btn-random")!.style.backgroundColor = "gray";
@@ -119,7 +95,6 @@ export class CreateGrpComponent implements OnInit {
     });
   }
 
-
   async checkMaxGrp(){
     this.databaseService.groupIsMax().then((res) => {
       if(res){
@@ -131,6 +106,7 @@ export class CreateGrpComponent implements OnInit {
       }
     })
   }
+
   disableCreate(){
     if (this.sharedService.getCreateClicked()){
       document.getElementById("btn-create")!.style.pointerEvents = "none";
