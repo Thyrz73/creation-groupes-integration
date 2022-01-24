@@ -1,21 +1,33 @@
 .config-grpes .container {
   position: absolute;
-  top: 20%;
-  left: 35%;
+  top: 30%;
+  left: 45%;
   align-items: center;
   justify-content: center;
+  font-weight: bold;
 }
 
 .config-grpes .container .input,
 .radio {
-  margin-bottom: 30px;
+  margin-bottom: 40px;
 }
 
 .config-grpes .container .input input {
   height: 30px;
   width: 200px;
+  border: none;
+  border-bottom: 1px solid black;
+  outline: none;
+  position: absolute;
+  left: 55%;
 }
 
+.config-grpes .container .input.users input {
+  top: -5%;
+}
+.config-grpes .container .input.groups input {
+  top: 23%;
+}
 .config-grpes .container .radio {
   display: flex;
 }
