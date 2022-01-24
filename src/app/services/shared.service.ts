@@ -8,6 +8,7 @@ export class SharedService {
   randomClicked: Boolean = false;
   quitClicked: Boolean = false;
   createClicked: Boolean = false;
+  triggerRandom: Boolean = false;
 
   constructor() { }
 
@@ -36,9 +37,18 @@ export class SharedService {
 
   setCreateClicked(){
     this.createClicked = true;
-    this.randomClicked = true;
   }
   getCreateClicked(){
     return this.createClicked;
+  }
+
+  setTriggerRandom(){
+    this.triggerRandom = true;
+  }
+  unsetTriggerRandom(){
+    this.triggerRandom = false;
+  }
+  getTriggerRandom(){
+    return this.triggerRandom;
   }
 }
