@@ -56,7 +56,8 @@
   background-color: green;
 }
 
-.login .box .error {
+.login .box .error,
+.empty {
   color: red;
   font-size: 18px;
   font-weight: bold;

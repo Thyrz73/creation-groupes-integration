@@ -30,32 +30,6 @@ export class MyGroupComponent implements OnInit {
     this.groupInfos(this.currentUser);
   }
 
-  async checkIfUserInGroup(){
-    this.sharedService.setCreateClicked();
-    this.disableCreate();
-    await this.databaseService.getGroupName(this.currentUser).then((res) => {
-      if (parseInt(res!) !== 0){
-        this.userInGroup = true;
-        this.maxGroup = false;
-      }
-      else{
-        this.userInGroup = false;
-      }
-    });
-  }
-
-
-  async checkMaxGrp(){
-    this.databaseService.groupIsMax().then((res) => {
-      if(res){
-        this.maxGroup = true;
-        this.userInGroup = false;
-      }
-      else{
-        this.maxGroup = false;
-      }
-    })
-  }
   disableCreate(){
     if (this.sharedService.getCreateClicked()){
       document.getElementById("btn-create")!.style.pointerEvents = "none";
@@ -84,30 +58,11 @@ export class MyGroupComponent implements OnInit {
     this.databaseService.removeFromGroup(this.currentUser, this.groupName);
     this.sharedService.setQuitCliked();
     alert("Vous avez bien quitté le groupe.");
+    this.sharedService.unsetTriggerRandom();
   }
 
-  async randomGroup(){
-    this.sharedService.setRandomClicked();
-    this.disableRandom();
-    await this.databaseService.getGroupName(this.currentUser).then((res) => {
-      this.groupName = res!;
-    })
-    parseInt(this.groupName) !== 0 ? 
-                          document.getElementById("already-group")!.style.display = "inline"
-                          :
-                          await this.databaseService.getIncompleteGroups().then((res) => {
-                            if (res.length == 0){
-                              document.getElementById("unexistant-group")!.style.display = "inline";
-                              return 0;
-                            }
-                            else{
-                              this.random = res[Math.floor(Math.random()*res.length)].toString();
-                              document.getElementById("group-name")!.style.display = "inline";
-                              document.getElementById("already-group")!.style.display = "none";
-                              this.databaseService.putInRandomGroup(this.currentUser, this.random);
-                              return res;
-                            }
-                          });
+  triggerRandom(){
+    this.sharedService.setTriggerRandom();
   }
 
   disableRandom(){

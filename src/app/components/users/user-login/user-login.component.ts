@@ -20,7 +20,7 @@ export class UserLoginComponent implements OnInit {
   }
 
   async loginuser(){
-    if(this.username !== null && this.username.length > 0 && !this.username.startsWith(" ")){
+    if(this.username !==undefined && this.username !== null && this.username.length > 0 && !this.username.startsWith(" ")){
       await this.databaseService.logInName(this.username).then((res) => {
         if (res){
           this.router.navigate(['/dashboard-user']);
@@ -35,6 +35,7 @@ export class UserLoginComponent implements OnInit {
       return 'login user ok';
     }
     else{
+      document.getElementById("empty")!.style.display = "inline";
       return 'login error empty';
     }
   }
