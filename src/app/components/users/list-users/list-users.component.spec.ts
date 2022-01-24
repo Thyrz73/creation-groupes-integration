@@ -4,7 +4,6 @@ import { ListUsersComponent } from './list-users.component';
 import { environment } from 'src/environments/environment';
 import { AngularFireModule } from '@angular/fire/compat';
 import { DatabaseService } from 'src/app/services/database.service';
-import { SharedService } from 'src/app/services/shared.service';
 
 describe('ListUsersComponent', () => {
   let component: ListUsersComponent;
@@ -46,13 +45,4 @@ describe('ListUsersComponent', () => {
     component.ngOnInit();
     expect(spy).toHaveBeenCalled();
   });
-/*
-  it('check that username entered is saved as current username', () => {
-    component.username = 'test';
-    component.loginuser();
-    fixture.detectChanges();
-    console.log("UERBAME = ",component.sharedService.currentUsername);
-    expect(component.sharedService.currentUsername).not.toMatch('');
-  });
-  */
 });

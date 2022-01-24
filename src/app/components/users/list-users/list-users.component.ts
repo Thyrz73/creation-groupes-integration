@@ -14,7 +14,6 @@ export class ListUsersComponent implements OnInit {
   userInGroup: Boolean = true;
   maxGroup: Boolean = true;
 
-
   constructor(public databaseService: DatabaseService, public sharedService: SharedService) { }
 
   ngOnInit(): void {
@@ -38,7 +37,6 @@ export class ListUsersComponent implements OnInit {
     });
   }
 
-
   async checkMaxGrp(){
     this.databaseService.groupIsMax().then((res) => {
       if(res){
@@ -50,6 +48,7 @@ export class ListUsersComponent implements OnInit {
       }
     })
   }
+
   disableCreate(){
     if (this.sharedService.getCreateClicked()){
       document.getElementById("btn-create")!.style.pointerEvents = "none";
