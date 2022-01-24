@@ -20,7 +20,6 @@ export class SharedService {
 
   setRandomClicked(){
     this.randomClicked = true;
-    this.createClicked = true;
   }
   getRandomClicked(){
     return this.randomClicked;

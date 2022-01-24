@@ -25,7 +25,7 @@ export class DatabaseService {
     });
   }
 
-  // Read admin config settings from db
+  // Get admin config settings
   async getConfig(){
     const docRef = doc(this.db, "Configuration", "configID");
     const docSnap = await getDoc(docRef);
@@ -39,22 +39,24 @@ export class DatabaseService {
 
   // Get nb groups created
   async createdGrp(){
-    const docRef = doc(this.db, "Groups", "groupsCreated");
-    const docSnap = await getDoc(docRef);
-    let data;
+    const docRef = collection(this.db, "Configuration");
+    const docSnap = await getDocs(docRef);
+    let res: string = '';
+    await docSnap.forEach((data) => {
+      res =  data.data()["CurrentGroups"];
+    });
+    return res;
+  }
 
-    if (docSnap.exists()){
-      try {
-        data = docSnap.data().created;
-        return data;
-      } catch (err) {
-        console.error(err);
-        return 'err';
-      }
-    }
-    else{
-      return -1;
-    }
+  // Get nb users
+  async getNbUsers(){
+    const docRef = collection(this.db, "Configuration");
+    const docSnap = await getDocs(docRef);
+    let res: string = '';
+    await docSnap.forEach((data) => {
+      res =  data.data()["NbCurrentUsers"];
+    });
+    return res;
   }
 
   // Get users without a groups
@@ -135,6 +137,7 @@ export class DatabaseService {
     return groupNames;
   }
 
+  // Remove user from group
   async removeFromGroup(username: string, id: string){
     await updateDoc(doc(this.db, 'Users', username), {
       Group: 0
@@ -164,13 +167,14 @@ export class DatabaseService {
   }
   
   async GroupCreation(inviteName:string, username: string, code:string){
-    
+
     const refGrpCurrent = await getDoc(doc(this.db, "Configuration", "configID"));
     const grpCurrent = refGrpCurrent.data()!["CurrentGroups"];
     const maxGroups = await getDoc(doc(this.db, "Configuration", "configID"));
     const maxNumber = maxGroups.data()!["Groups"];
+    const configLast = maxGroups.data()!["Last"];
     const grp = await getDocs(collection(this.db, "Groups"));
-    const freeplace = maxGroups.data()!["UsersPerGroup"] - 1;
+    let freeplace = maxGroups.data()!["UsersPerGroup"] - 1;
     
     let id = 0;
     grp.forEach((data) => {
@@ -183,9 +187,18 @@ export class DatabaseService {
     }else{
       let list: String [] = [];
       list.push(username);
+
+      if(id === 1){
+        if (configLast === "LAST_MIN"){
+          freeplace -= 1;
+        }
+        else{
+          freeplace += 1;
+        }
+      }
       
       await setDoc(doc(this.db, 'GroupsOnHold', 'Group'+id), {
-        FreePlace:freeplace,
+        FreePlace: freeplace,
         Id: id,
         Users :list,
         invite : code,
