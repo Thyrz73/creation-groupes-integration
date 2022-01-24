@@ -47,4 +47,8 @@ describe('MyGroupComponent', () => {
     component.ngOnInit();
     expect(spy).toHaveBeenCalled();
   });
+
+  it('should return true when ask for group infos of current user logged', () => {
+    expect(component.groupInfos(component.currentUser)).toBeTruthy();
+  });
 });
