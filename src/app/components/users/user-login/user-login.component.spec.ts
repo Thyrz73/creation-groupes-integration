@@ -32,11 +32,11 @@ describe('UserLoginComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('check that username entered is saved as current username', () => {
-    component.username = 'test';
-    component.loginuser();
-    fixture.detectChanges();
-    console.log("UERBAME = ",component.sharedService.currentUsername);
-    expect(component.sharedService.currentUsername).not.toMatch('');
-  });
+//   it('check that username entered is saved as current username', () => {
+//     component.username = 'test';
+//     component.loginuser();
+//     fixture.detectChanges();
+//     console.log("UERBAME = ",component.sharedService.currentUsername);
+//     expect(component.sharedService.currentUsername).not.toMatch('');
+//   });
 });
