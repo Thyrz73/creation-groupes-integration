@@ -1,0 +1,24 @@
+.exit {
+  position: absolute;
+  left: 93%;
+  top: 2%;
+  background-color: red;
+  padding: 10px;
+  border-radius: 15px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+}
+
+.exit:hover {
+  background-color: rgb(124, 0, 0);
+}
+
+.nb-users-groups {
+  position: absolute;
+  left: 90%;
+  top: 10%;
+  padding: 4px;
+  border: 2px double rgb(103, 215, 252);
+  border-radius: 5px;
+}

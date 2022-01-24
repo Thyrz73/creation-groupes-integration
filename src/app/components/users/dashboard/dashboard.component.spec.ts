@@ -29,8 +29,4 @@ describe('DashboardComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should create div', () => {
-    // TODO
-  });
 });

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { DatabaseService } from 'src/app/services/database.service';
 import { SharedService } from 'src/app/services/shared.service';
 
@@ -15,25 +15,14 @@ export class DashboardComponent implements OnInit {
   currentUser: string = '';
   userInGroup: Boolean = true;
   maxGroup: Boolean = true;
-  id: string = '~';
 
-
-  constructor(private router: Router, private route: ActivatedRoute, public databaseService: DatabaseService, public sharedService: SharedService) { }
+  constructor(private router: Router, public databaseService: DatabaseService, public sharedService: SharedService) { }
 
   ngOnInit(): void {
-    var tester = 1;
-    this.route.params.subscribe(params => {
-      this.id = params['id'];
-    });
-
-    if(this.id !== '~' && tester === 1){
-      //document.getElementById("inv-login")?.setAttribute("style","display:inline-block");
-      tester = 0;
-    }
     this.currentUser = this.sharedService.getCurrentUsername();
     document.getElementById("list-container")?.remove();
     this.databaseService.invitedToGrp(this.currentUser).then((resp)=> {
-      if(resp !== '~' && tester === 1){
+      if(resp !== '~'){
         document.getElementById("invite-msg")?.setAttribute("style","display:inline-block");
       }
     });
@@ -143,11 +132,4 @@ export class DashboardComponent implements OnInit {
       document.getElementById("btn-random")!.style.backgroundColor = "gray";
     }
   }
-
-  loginInvUser(){
-    document.getElementById("invite-msg")?.setAttribute("style","display:inline-block");
-    this.databaseService.updateInv(this.id, this.currentUser);
-    document.getElementById("inv-login")?.setAttribute("style","display:none");
-  }
-
 }
